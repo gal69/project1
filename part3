@@ -6,11 +6,40 @@ public class part3
 
   public static void main(Strings[] args)
   {
-  
-  
+      final int SIZE=10;
+      int[][] array= new int[SIZE][SIZE];
+      
+      int i=0;
+      int j=0;
+      
+      for(i=0;i<10;i++)
+      {
+        for(j=0;j<10;j++)
+        {
+          array[i][j]= i+j;
+        }
+       }
+       int[][] newarray= flipForFour(array,SIZE);
+       printArray(array,SIZE);
+       System.out.println();
+       printArray(newarray,SIZE);
   }
    
-   
+  public void printArray(int[][] temp, int dim)
+  {
+    int i=0;
+    int j=0;
+    
+    for(i=0;i<dim;i++)
+    {
+      for(j=0;j<dim;j++)
+      {
+        System.out.print(temp[i][j]);
+       }
+       System.out.println();
+    }
+   }
+       
   public int[][] flipForFour(int[][] start, int dim)
   {
     int[][] flippped = new int[dim][dim];
