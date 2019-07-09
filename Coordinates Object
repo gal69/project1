@@ -1,0 +1,22 @@
+public class Coordinates {
+	int x;
+	int y;
+	int dim;
+	public Coordinates(int first, int second, int third){
+		x=first;
+		y=second;
+		dim=third;
+	}
+	public boolean isEqual(Coordinates a, Coordinates b) {
+		if(a.x==b.x && a.y==b.y) {
+			return true;
+		}	
+		return false;
+	}
+	public int compareTo(Coordinates a, Coordinates b) {
+		if(isEqual(a,b)) {
+			return 0;
+		}
+		return 1;	
+	}
+}
