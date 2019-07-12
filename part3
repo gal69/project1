@@ -29,6 +29,7 @@ LinkList<Coordinates> closedlist = new LinkList<Coordinates>();
     //start at 0,0
     
     Coordinates start= new Coordinates(0,0,DIM);
+    start.weight =(int)DIM;
     prev= new Coordinates(0,0,DIM);
     boolean status = true;
     
@@ -36,6 +37,7 @@ LinkList<Coordinates> closedlist = new LinkList<Coordinates>();
     {
     	path = "";
     	Coordinates start= new Coordinates(0,0,DIM);
+	start.weight= (int)DIM;
 	status = ASTAR(start);
 	openlist.clear();
 	closedlist.clear();
