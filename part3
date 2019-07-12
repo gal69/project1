@@ -2,18 +2,17 @@ import java.util.*;
 import java.lang.*;
 import Coordinates;
 
-
-
-
-// left off on g values and trying to set hue in int in ASTAR
 public class part3
 {
+
+
 static int[][] grid;
 static char[][] knwgrid;
 static int[][] ggrid;
 static double[][] huegrid;
 static double[][] fgrid;
 static String path="";
+static Coordinates prev;
 PriorityQueue<Coordinates> openlist= new PriorityQueue<Coordinates>();
 LinkList<Coordinates> closedlist = new LinkList<Coordinates>();
 
@@ -30,6 +29,7 @@ LinkList<Coordinates> closedlist = new LinkList<Coordinates>();
     //start at 0,0
     
     Coordinates start= new Coordinates(0,0,DIM);
+    prev= new Coordinates(0,0,DIM);
     boolean status = true;
     
     while(!status)
@@ -42,7 +42,7 @@ LinkList<Coordinates> closedlist = new LinkList<Coordinates>();
 	
     }
     // path should have the last ordered pair of destination if not failure
-    if(path.charAt(DIM-2)== (char)DIM)
+    if(path.charAt(DIM-1)== (char)DIM)
     {
     	System.out.println("a solution was found by: \n\n"+path+" path\n");
     }
@@ -56,6 +56,7 @@ LinkList<Coordinates> closedlist = new LinkList<Coordinates>();
    {
    	int x= point.x;
 	int y=point.y;
+	closedlist.add(point);
 	
 	knwgrid[x][y]= (char)grid[x][y];
 	// you hit a wall repeat
@@ -72,7 +73,7 @@ LinkList<Coordinates> closedlist = new LinkList<Coordinates>();
 	}
 	else
 	{
-		path= path+"("+x+","+y+") ";
+		path= path+""+x+""+y+"";
 		
 		// you finished stop
 		if(x==y && (y==(point.dim-1) )  )
@@ -84,18 +85,36 @@ LinkList<Coordinates> closedlist = new LinkList<Coordinates>();
 		// we need to find valid edges compute g f and hue and add to the queue
 	
 		
-		// hue is the easiest lets start there
-		
-		if(hue[x][y] <0)
+		// hue is already set so now we can go straight to g
+		// this g formula is probably bad but it should not effect overal ability
+		if(x==y && y==0)
 		{
-			// this should use the best hue but for now it averages all 3
-			
-			hue[x][y]=(Math.sqrt(Math.pow((x-point.dim),2)+Math.pow((y-point.dim),2)))+
-				  Math.abs(x-point.dim)+Math.abs(y-point.dim) +
-				  Math.max( Math.abs(x-point.dim),Math.abs(y-point.dim) ))/3.0 ;
+			ggrid[x][y]=(dim-1)*2;
+		else
+		{
+			ggrid[x][y]=Math.max((ggrid[prev.x][prev.y]-1),((dim-1)*2-x-y));
 		}
-		// hue should be set now and good
-		// now for g
+		String check= validAdj(point);
+		
+		if(check.charAt(0)==1)
+		{
+			Coordinates temp1= new Coordinates(x-1,y,point.dim);
+			
+		}
+		if(check.charAt(1)==1)
+		{
+			Coordinates temp2= new Coordinates(x,y+1,point.dim);
+		}
+		if(check.charAt(2)==1)
+		{
+			Coordinates temp3= new Coordinates(x+1,y,point.dim);
+		}
+		if(check.charAt(3)==1)
+		{
+			Coordinates temp4= new Coordinates(x,y-1,point.dim);
+		}
+		
+			
 	
    
    }
@@ -108,10 +127,11 @@ LinkList<Coordinates> closedlist = new LinkList<Coordinates>();
     
     // i added this later it will also check if the point is IN THE CLOSEDLIST if it is its zero
     
-  public String validAdj(Coordinates point, int dim)
+  public String validAdj(Coordinates point)
   {
   	int x=point.x;
 	int y=point.y;
+	int dim = point.dim;
 	
 	char[] r = {'1','1','1','1'};
 	
@@ -134,13 +154,13 @@ LinkList<Coordinates> closedlist = new LinkList<Coordinates>();
 		
 	point.setThis(x,y);
 	
-	return ""+r[0]+r[1]+r[2]+r[3]+""
+	return ""+r[0]+r[1]+r[2]+r[3]+"";
 	
 	
   }
 
 
-  // i put Ggrid in here two i should have just made all of them one fuction but whatever
+  // 
   
   //nvm made them all one thing
   public void intAllgrids(int dim)
@@ -156,8 +176,10 @@ LinkList<Coordinates> closedlist = new LinkList<Coordinates>();
       for(int j=0;j<dim;j++)
         {
           knwgrid[i][j]='?';
-	  ggrid[i][j]= -1;
-	  huegrid[i][j]= -1.0;
+	  ggrid[i][j]= 0;
+	  huegrid[i][j]= (Math.sqrt(Math.pow((i-point.dim),2)+Math.pow((j-point.dim),2)))+
+				  Math.abs(i-point.dim)+Math.abs(j-point.dim) +
+				  Math.max( Math.abs(i-point.dim),Math.abs(j-point.dim) ))/3.0 ;;
 	  fgrid[i][j]=-1.0;
 	  
         }
