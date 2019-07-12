@@ -5,12 +5,24 @@ public class part3
 {
 static int[][] grid;
 static char[][] knwgrid;
+static double[][] huegrid;
+static double[][] fgrid;
+
   public static void main(Strings[] args)
   {
     final int DIM=3;
     final double P=.1;
-    genArray(DIM, P);
+    
+    // we need to keep track of some stuff so just use arrays to do that
+    //initialize stuff
+    
+    intGrid(DIM, P);
     intKnwgrid(DIM);
+    intHuegrid(DIM);
+    intFgrid(DIM);
+    
+    
+    
     
   
 
@@ -30,7 +42,33 @@ static char[][] knwgrid;
      knwgrid[0][0]='0';
      knwgrid[dim-1][dim-1]=0;
   }
-public static void genArray(int n, double p) {
+  public void intHuegrid(int dim)
+  {
+    huegrid= new double[dim][dim];
+      
+     for(int i =0;i<dim;i++)
+     {
+      for(int j=0;j<dim;j++)
+        {
+          huegrid[i][j]=-1.0;
+        }
+     }
+    
+  }
+    public void intFgrid(int dim)
+  {
+   fgrid= new double[dim][dim];
+      
+     for(int i =0;i<dim;i++)
+     {
+      for(int j=0;j<dim;j++)
+        {
+          fgrid[i][j]=-1.0;
+        }
+     }
+    
+  }
+public static void intGrid(int n, double p) {
 		int [][] arr= new int [n][n];
 		double rand;
 		for(int i=0;i<n;i++) {
