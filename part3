@@ -13,7 +13,7 @@ static double[][] huegrid;
 static double[][] fgrid;
 static String path="";
 static Coordinates prev;
-PriorityQueue<Coordinates> openlist= new PriorityQueue<Coordinates>();
+PriorityQueue<Coordinates> openlist= new PriorityQueue<Coordinates>(0,Comparator<Double);
 LinkList<Coordinates> closedlist = new LinkList<Coordinates>();
 
   public static void main(Strings[] args)
