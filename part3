@@ -73,24 +73,24 @@ LinkList<Coordinates> closedlist = new LinkList<Coordinates>();
 	
 	char[] r = {'1','1','1','1'};
 	
-	if( (x-1) <0 || knwgrid[x-1][y]==1 || (closedlist.contains(point)))
+	if( (x-1) <0 || knwgrid[x-1][y]==1 || (closedlist.contains(point.setThis((x-1),y)))
 	{
 		r[0]='0';
 	}
-	if( (x+1)>=dim || knwgrid[x+1][y] ==1)
+	if( (x+1)>=dim || knwgrid[x+1][y] ==1 || (closedlist.contains(point.setThis((x+1),y)))
 	{
 		r[2]='0';
 	}
-	if( (y-1) <0 || knwgrid[x][y-1]==1)
+	if( (y-1) <0 || knwgrid[x][y-1]==1 || (closedlist.contains(point.setThis(x,(y-1))))
 	{
 		r[3]='0';
 	}
-	if( (y+1)>=dim || knwgrid[x][y+1] ==1)
+	if( (y+1)>=dim || knwgrid[x][y+1] ==1 || (closedlist.contains(point.setThis(x,(y+1)))
 	{
 		r[1]='0';
 	}
 		
-	
+	point.setThis(x,y);
 	
 	return ""+r[0]+r[1]+r[2]+r[3]+""
 	
