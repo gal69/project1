@@ -9,6 +9,7 @@ static double[][] huegrid;
 static double[][] fgrid;
 static String path="";
 PriorityQueue<Coordinates> openlist= new PriorityQueue<Coordinates>();
+LinkList<Coordinates> closedlist = new LinkList<Coordinates>();
 
   public static void main(Strings[] args)
   {
@@ -63,6 +64,8 @@ PriorityQueue<Coordinates> openlist= new PriorityQueue<Coordinates>();
     // some point in the KNWGRID not the actual grid. ? is considered a valid neighbor
     // but 1, and out of bounds is not.
     
+    // i added this later it will also check if the point is IN THE CLOSEDLIST if it is its zero
+    
   public String validAdj(Coordinates point, int dim)
   {
   	int x=point.x;
@@ -70,7 +73,7 @@ PriorityQueue<Coordinates> openlist= new PriorityQueue<Coordinates>();
 	
 	char[] r = {'1','1','1','1'};
 	
-	if( (x-1) <0 || knwgrid[x-1][y]==1)
+	if( (x-1) <0 || knwgrid[x-1][y]==1 || (closedlist.contains(point)))
 	{
 		r[0]='0';
 	}
