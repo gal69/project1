@@ -5,6 +5,7 @@ public class part3
 {
 static int[][] grid;
 static char[][] knwgrid;
+static int[][] ggrid;
 static double[][] huegrid;
 static double[][] fgrid;
 static String path="";
@@ -20,9 +21,7 @@ LinkList<Coordinates> closedlist = new LinkList<Coordinates>();
     //initialize stuff
     
     intGrid(DIM, P);
-    intKnwgrid(DIM);
-    intHuegrid(DIM);
-    intFgrid(DIM);
+    intAllgrids(DIM);
     //start at 0,0
     
     Coordinates start= new Coordinates(0,0,DIM);
@@ -33,8 +32,19 @@ LinkList<Coordinates> closedlist = new LinkList<Coordinates>();
     	path = "";
     	Coordinates start= new Coordinates(0,0,DIM);
 	status = ASTAR(start);
+	openlist.clear();
+	closedlist.clear();
+	
     }
-    System.out.println("a solution was found by: \n\n"+path+" path\n");
+    // path should have the last ordered pair of destination if not failure
+    if(path.charAt(DIM-2)== (char)DIM)
+    {
+    	System.out.println("a solution was found by: \n\n"+path+" path\n");
+    }
+    else
+    {
+       System.out.println("\n no path was found:\n");
+    }
    }
    
    public boolean ASTAR( Coordinates point)
@@ -43,14 +53,33 @@ LinkList<Coordinates> closedlist = new LinkList<Coordinates>();
 	int y=point.y;
 	
 	knwgrid[x][y]= (char)grid[x][y];
+	// you hit a wall repeat
 	
 	if(grid[x][y]==1)
 	{
 		return false;
 	}
+	
+	// there is no solution stop
+	if(!(path.isEqual("")) && openlist.isEmpty() && validAdj(point).isEqual("0000"))
+	{
+		return true;
+	}
 	else
 	{
 		path= path+"("+x+","+y+") ";
+		
+		// you finished stop
+		if(x==y && (y==(point.dim-1) )  )
+		{
+			// great we are at the destination
+			return true;
+		}
+		// now we have work...
+		// we need to find valid edges compute g f and hue and add to the queue
+		//
+		
+		
 		
    
    
@@ -98,46 +127,30 @@ LinkList<Coordinates> closedlist = new LinkList<Coordinates>();
   }
 
 
+  // i put Ggrid in here two i should have just made all of them one fuction but whatever
   
-  public void intKnwgrid(int dim)
+  //nvm made them all one thing
+  public void intAllgrids(int dim)
   {
-    knwgrid= new char[dim][dim];
-      
+     knwgrid= new char[dim][dim];
+     huegrid= new double[dim][dim]; 
+     fgrid= new double[dim][dim];
+     ggrid= new double[dim][dim];
+     
+     
      for(int i =0;i<dim;i++)
      {
       for(int j=0;j<dim;j++)
         {
           knwgrid[i][j]='?';
+	  ggrid[i][j]= 2*dim-i-j;
+	  huegrid[i][j]= -1.0;
+	  fgrid[i][j]=-1.0;
+	  
         }
      }
      knwgrid[0][0]='0';
      knwgrid[dim-1][dim-1]=0;
-  }
-  public void intHuegrid(int dim)
-  {
-    huegrid= new double[dim][dim];
-      
-     for(int i =0;i<dim;i++)
-     {
-      for(int j=0;j<dim;j++)
-        {
-          huegrid[i][j]=-1.0;
-        }
-     }
-    
-  }
-    public void intFgrid(int dim)
-  {
-   fgrid= new double[dim][dim];
-      
-     for(int i =0;i<dim;i++)
-     {
-      for(int j=0;j<dim;j++)
-        {
-          fgrid[i][j]=-1.0;
-        }
-     }
-    
   }
 public static void intGrid(int n, double p) {
 		int [][] arr= new int [n][n];
