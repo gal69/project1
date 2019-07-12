@@ -2,6 +2,9 @@ import java.util.*;
 import java.lang.*;
 import Coordinates;
 
+
+
+// adding stuff with weights
 public class part3
 {
 
