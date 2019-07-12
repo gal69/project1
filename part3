@@ -1,6 +1,11 @@
 import java.util.*;
 import java.lang.*;
 import Coordinates;
+
+
+
+
+// left off on g values and trying to set hue in int in ASTAR
 public class part3
 {
 static int[][] grid;
@@ -77,13 +82,21 @@ LinkList<Coordinates> closedlist = new LinkList<Coordinates>();
 		}
 		// now we have work...
 		// we need to find valid edges compute g f and hue and add to the queue
-		//
+	
 		
+		// hue is the easiest lets start there
 		
-		
-   
-   
-   
+		if(hue[x][y] <0)
+		{
+			// this should use the best hue but for now it averages all 3
+			
+			hue[x][y]=(Math.sqrt(Math.pow((x-point.dim),2)+Math.pow((y-point.dim),2)))+
+				  Math.abs(x-point.dim)+Math.abs(y-point.dim) +
+				  Math.max( Math.abs(x-point.dim),Math.abs(y-point.dim) ))/3.0 ;
+		}
+		// hue should be set now and good
+		// now for g
+	
    
    }
     
@@ -143,7 +156,7 @@ LinkList<Coordinates> closedlist = new LinkList<Coordinates>();
       for(int j=0;j<dim;j++)
         {
           knwgrid[i][j]='?';
-	  ggrid[i][j]= 2*dim-i-j;
+	  ggrid[i][j]= -1;
 	  huegrid[i][j]= -1.0;
 	  fgrid[i][j]=-1.0;
 	  
