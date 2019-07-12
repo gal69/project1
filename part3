@@ -1,12 +1,14 @@
 import java.util.*;
 import java.lang.*;
-import Project1;
+import Coordinates;
 public class part3
 {
 static int[][] grid;
 static char[][] knwgrid;
 static double[][] huegrid;
 static double[][] fgrid;
+static String path="";
+PriorityQueue<Coordinates> openlist= new PriorityQueue<Coordinates>();
 
   public static void main(Strings[] args)
   {
@@ -20,14 +22,80 @@ static double[][] fgrid;
     intKnwgrid(DIM);
     intHuegrid(DIM);
     intFgrid(DIM);
+    //start at 0,0
+    
+    Coordinates start= new Coordinates(0,0,DIM);
+    boolean status = true;
+    
+    while(!status)
+    {
+    	path = "";
+    	Coordinates start= new Coordinates(0,0,DIM);
+	status = ASTAR(start);
+    }
+    System.out.println("a solution was found by: \n\n"+path+" path\n");
+   }
+   
+   public boolean ASTAR( Coordinates point)
+   {
+   	int x= point.x;
+	int y=point.y;
+	
+	knwgrid[x][y]= (char)grid[x][y];
+	
+	if(grid[x][y]==1)
+	{
+		return false;
+	}
+	else
+	{
+		path= path+"("+x+","+y+") ";
+		
+   
+   
+   
+   
+   }
     
     
+    // kind of confusing basically it returns a binary string '0000'
+    //where bits 0-3 are up right down left repectivly are valid adjacent neighbors of 
+    // some point in the KNWGRID not the actual grid. ? is considered a valid neighbor
+    // but 1, and out of bounds is not.
     
-    
-  
-
-
+  public String validAdj(Coordinates point, int dim)
+  {
+  	int x=point.x;
+	int y=point.y;
+	
+	char[] r = {'1','1','1','1'};
+	
+	if( (x-1) <0 || knwgrid[x-1][y]==1)
+	{
+		r[0]='0';
+	}
+	if( (x+1)>=dim || knwgrid[x+1][y] ==1)
+	{
+		r[2]='0';
+	}
+	if( (y-1) <0 || knwgrid[x][y-1]==1)
+	{
+		r[3]='0';
+	}
+	if( (y+1)>=dim || knwgrid[x][y+1] ==1)
+	{
+		r[1]='0';
+	}
+		
+	
+	
+	return ""+r[0]+r[1]+r[2]+r[3]+""
+	
+	
   }
+
+
+  
   public void intKnwgrid(int dim)
   {
     knwgrid= new char[dim][dim];
