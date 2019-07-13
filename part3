@@ -99,27 +99,43 @@ LinkList<Coordinates> closedlist = new LinkList<Coordinates>();
 		{
 			ggrid[x][y]=Math.max((ggrid[prev.x][prev.y]-1),((dim-1)*2-x-y));
 		}
+		
+		// recall check will be a 4 bit string of 0 or 1's a 0 means dont add
+		//to the list 1 means add it
 		String check= validAdj(point);
 		
 		if(check.charAt(0)==1)
 		{
 			Coordinates temp1= new Coordinates(x-1,y,point.dim);
+			temp1.weight = ggrid[x][y]-1 +huegrid[x-1][y];
+			openlist.add(temp1);
 			
 		}
 		if(check.charAt(1)==1)
 		{
 			Coordinates temp2= new Coordinates(x,y+1,point.dim);
+			temp2.weight = ggrid[x][y]-1 +huegrid[x][y+1];
+			openlist.add(temp2);
 		}
 		if(check.charAt(2)==1)
 		{
 			Coordinates temp3= new Coordinates(x+1,y,point.dim);
+			temp3.weight = ggrid[x][y]-1 +huegrid[x+1][y];
+			openlist.add(temp3);
 		}
 		if(check.charAt(3)==1)
 		{
 			Coordinates temp4= new Coordinates(x,y-1,point.dim);
+			temp4.weight = ggrid[x][y]-1 +huegrid[x][y-1];
+			openlist.add(temp4);
 		}
 		
-			
+		prev = new Coordinates(x,y);
+		
+		// this should be the end it means we need to traverse more
+		return (false || ASTAR(openlist.poll()) );
+	
+	
 	
    
    }
@@ -216,7 +232,17 @@ public static void intGrid(int n, double p) {
 		}
 		grid= arr;
 	}
-
+public void printIt( T[][] temp)
+{
+	for(int i=0;i<temp.length;i++)
+	{
+		for(intj=0;j<temp.length;j++)
+		{
+			System.out.print(""+temp[i][j]+" ")
+		}
+		System.out.println();
+	}
+}
   /* 
   public int[][] flipForFour(int[][] start, int dim)
   {
