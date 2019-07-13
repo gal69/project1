@@ -3,6 +3,19 @@ import java.lang.*;
 import java.util.concurrent.TimeUnit;
 import Coordinates;
 
+/*
+Forward A* vs Backward A* does not differ much in runtime or
+even the number of expanded cells. From what I have observed both
+algorithms are faster then the other or slower then the other depending
+totally on the scenario of the gridworld. The mort important function
+in terms of speed or runtime is the heuristics function. A* goes with
+a mantra of taking the better or "closer" path with least cost. However,
+sometimes in a case where there is a "trap" of some sort, a wall that
+the agent hits and walls next the the wall the agent hit, then A*
+will have the agent keep trying every path possible not knowing that it
+will run into another wall many more times. (Without knowledge of gridworld)
+-- WILL ADD MORE EXPLANTION LATER --
+*/
 
 
 // coded jsut needs to be debugged now
@@ -40,6 +53,8 @@ public static LinkList<Coordinates> closedlist = new LinkList<Coordinates>();
 	    
 	    System.out.println("Starting forward A star algorithm\n");
 
+	    //we will get time in nanoseconds, people online say it is the most accurate
+	    //for runtime measuremeants
 	    long startTime = System.nanoTime();
 	    while(!status)
 	    {
@@ -66,10 +81,10 @@ public static LinkList<Coordinates> closedlist = new LinkList<Coordinates>();
 	    System.out.println("Execution time in nanoseconds : " + timeElapsed);
 
 	    // do it again for reverse A star measurements
+	    //Reinitialize - have to check if this works though, might have to clear other things?
 	    intGrid(DIM, P);
 	    intAllgrids(DIM);
 	    //start at n,n? assuming end dimensions are dim or dim-1
-	    
 	    Coordinates start= new Coordinates(DIM-1,DIM-1,DIM);
 	    start.weight =(int)DIM;
 	    prev= new Coordinates(DIM-1,DIM-1,DIM);
