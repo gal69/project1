@@ -1,3 +1,4 @@
+import java.util.*
 public class Coordinates implements Comparator<T>{
 	int x;
 	int y;
