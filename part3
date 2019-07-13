@@ -4,20 +4,21 @@ import Coordinates;
 
 
 
-// adding stuff with weights
+// coded jsut needs to be debugged now
+
 public class part3
 {
 
 
-static int[][] grid;
-static char[][] knwgrid;
-static int[][] ggrid;
-static double[][] huegrid;
-static double[][] fgrid;
-static String path="";
-static Coordinates prev;
-PriorityQueue<Coordinates> openlist= new PriorityQueue<Coordinates>(0,Comparator<Double);
-LinkList<Coordinates> closedlist = new LinkList<Coordinates>();
+public static int[][] grid;
+public static char[][] knwgrid;
+public static int[][] ggrid;
+public static double[][] huegrid;
+public static double[][] fgrid;
+public static String path="";
+public  static Coordinates prev;
+public static PriorityQueue<Coordinates> openlist= new PriorityQueue<Coordinates>();
+public static LinkList<Coordinates> closedlist = new LinkList<Coordinates>();
 
   public static void main(Strings[] args)
   {
@@ -57,6 +58,10 @@ LinkList<Coordinates> closedlist = new LinkList<Coordinates>();
     }
    }
    
+   
+   // first note this IS a recursive func next if you have question its not going to be easy to explain
+   // the fuction edits static varibles to make other parts easier if you need to print things out
+   // as we traverse the grid
    public boolean ASTAR( Coordinates point)
    {
    	int x= point.x;
