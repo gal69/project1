@@ -1,0 +1,99 @@
+ 0 = unblocked cells; 1 = blocked cells; X = unknown cells; Y = presumed path
+ T = target; A = agent; 
+ Search problem:
+ 0 0 0 0 0
+ 0 0 1 0 0
+ 0 0 1 1 0
+ 0 0 1 1 0
+ 0 0 A 1 T
+
+STEP 1:
+0 0 0 0 0	X X X  X  X 	0 0 0  0 0
+0 0 1 0 0	X X X  X  X 	0 0 0  0 0
+0 0 1 1 0	X X X  X  X 	0 0 0  0 0
+0 0 1 1 0	X X XY XY 0Y 	0 0 Y  Y Y
+0 0 A 1 T 	X X AY 1  T 	0 0 AY 1 T
+
+STEP 2:
+0 0 0 0 0	X X X  X  X 	0 0 0  0 0
+0 0 1 0 0	X X X  X  X 	0 0 0  0 0
+0 0 1 1 0	X X XY XY 0Y 	0 0 Y  Y Y
+0 0 1 1 T	X X XY 1  T 	0 0 Y  1 T
+0 0 A 1 0	X X AY 1  0 	0 0 AY 1 0
+
+STEP 3:
+0 0 0 0 0	X X X  X  X 	0 0 0  0 0
+0 0 1 0 0	X X XY XY 0Y 	0 0 Y  Y Y
+0 0 1 1 T	X X XY 1  T 	0 0 Y  1 T
+0 0 1 1 0	X X XY 1  0 	0 0 Y  1 0
+0 0 A 1 0 	X X AY 1  0 	0 0 AY 1 0
+
+STEP 4:
+0 0 0 0 0	X X X  X  X 	0 0 0  0 0
+0 0 1 0 T	X X XY 0Y T 	0 0 Y  Y T
+0 0 1 1 0	X X XY 1  0 	0 0 Y  1 0
+0 0 1 1 0	X X XY 1  0 	0 0 Y  1 0
+0 0 A 1 0 	X X AY 1  0 	0 0 AY 1 0
+
+STEP 5:
+0 0 0 0 0	X XY XY XY X 	0 Y Y  Y 0
+0 0 1 T 0	X XY 1  T  0 	0 Y 1  T 0
+0 0 1 1 0	X XY XY 1  0 	0 Y Y  1 0
+0 0 1 1 0	X X  XY 1  0 	0 0 Y  1 0
+0 0 A 1 0 	X X  AY 1  0 	0 0 AY 1 0
+
+STEP 6:
+0 0 0 T 0	X XY 0Y T 0 	0 Y Y  T 0
+0 0 1 0 0	X XY 1  0 0 	0 Y 1  0 0
+0 0 1 1 0	X XY XY 1 0 	0 Y Y  1 0
+0 0 1 1 0	X X  XY 1 0 	0 0 Y  1 0
+0 0 A 1 0 	X X  AY 1 0 	0 0 AY 1 0
+
+STEP 7:
+0 0 T 0 0	X 0Y T  0 0 	0 Y T  0 0
+0 0 1 0 0	X XY 1  0 0 	0 Y 1  0 0
+0 0 1 1 0	X XY XY 1 0 	0 Y Y  1 0
+0 0 1 1 0	X X  XY 1 0 	0 0 Y  1 0
+0 0 A 1 0 	X X  AY 1 0 	0 0 AY 1 0
+
+STEP 8:
+0 T 0 0 0	0 T  0  0 0 	0 T 0  0 0
+0 0 1 0 0	X 0Y 1  0 0 	0 Y 1  0 0
+0 0 1 1 0	X XY XY 1 0 	0 Y Y  1 0
+0 0 1 1 0	X X  XY 1 0 	0 0 Y  1 0
+0 0 A 1 0 	X X  AY 1 0 	0 0 AY 1 0
+
+STEP 9:
+0 0 0 0 0	0 0  0  0 0 	0 0 0  0 0
+0 T 1 0 0	0 T  1  0 0 	0 T 1  0 0
+0 0 1 1 0	X 0Y XY 1 0 	0 Y Y  1 0
+0 0 1 1 0	X X  XY 1 0 	0 0 Y  1 0
+0 0 A 1 0 	X X  AY 1 0 	0 0 AY 1 0
+
+STEP 10:
+0 0 0 0 0	0 0  0  0 0 	0 0 0  0 0
+0 0 1 0 0	0 0  1  0 0 	0 0 1  0 0
+0 T 1 1 0	0 T  1  1 0 	0 T 1  1 0
+0 0 1 1 0	X 0Y XY 1 0 	0 Y Y  1 0
+0 0 A 1 0 	X X  AY 1 0 	0 0 AY 1 0
+
+STEP 11:
+0 0 0 0 0	0 0  0  0 0 	0 0 0  0 0
+0 0 1 0 0	0 0  1  0 0 	0 0 1  0 0
+0 0 1 1 0	0 0  1  1 0 	0 0 1  1 0
+0 T 1 1 0	0 T  1  1 0 	0 T 1  1 0
+0 0 A 1 0 	X 0Y AY 1 0 	0 0 AY 1 0
+
+STEP 12:
+0 0 0 0 0	0 0  0  0 0 	0 0 0  0 0
+0 0 1 0 0	0 0  1  0 0 	0 0 1  0 0
+0 0 1 1 0	0 0  1  1 0 	0 0 1  1 0
+0 0 1 1 0	0 0  1  1 0 	0 0 1  1 0
+0 T A 1 0 	0 T  AY 1 0 	0 T AY 1 0
+
+STEP 13:
+0 0 0 0 0	0 0 0 0 0 	0 0 0 0 0
+0 0 1 0 0	0 0 1 0 0 	0 0 1 0 0
+0 0 1 1 0	0 0 1 1 0 	0 0 1 1 0
+0 0 1 1 0	0 0 1 1 0 	0 0 1 1 0
+0 0 T 1 0 	0 0 T 1 0 	0 0 T 1 0
