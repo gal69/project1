@@ -1,4 +1,4 @@
-public class Coordinates implements Comparator<Double>{
+public class Coordinates implements Comparator<T>{
 	int x;
 	int y;
 	int dim;
@@ -14,6 +14,12 @@ public class Coordinates implements Comparator<Double>{
 		this.x=i;
 		this.y=j;
 	}
+	public boolean equals(Coordinates a, Coordinates b) {
+		if(a.x==b.x && a.y==b.y) {
+			return true;
+		}	
+		return false;
+	}
 	public boolean isEqual(Coordinates a, Coordinates b) {
 		if(a.x==b.x && a.y==b.y) {
 			return true;
@@ -22,14 +28,8 @@ public class Coordinates implements Comparator<Double>{
 	}
 	public int compare(Coordinates a, Coordinates b)
 	{
-		if(a.weight<=b.weight)
-		{
-			return 0;
-		}
-		else
-		{
-			return 1;
-		}
+		return (a.weight -b.weight)
+		
 	}
 	public int compareTo(Coordinates a, Coordinates b) {
 		if(isEqual(a,b)) {
