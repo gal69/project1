@@ -1,0 +1,23 @@
+part 3:
+
+just running an example of part 3 for dim= 101 for p= .33 firstly I noticed that it did take a while to run.
+much longer then it would take in part 1 which makes sense as A* is called repeatedly which kills run time.
+Also, i noticed that the agent moved very closly along the diagonal which is also to be expected to minimize
+the path.
+
+on part (a) i changed the dim to 10 to prevent waiting for years to run 100 times to get an average of expanded cells
+i had expected that the algorithm that favors smaller g values would on average expand less cells as g is roughly the distance 
+to the goal so smaller ones should get to the goal faster. This turned out to  be correct as in 10 dimentions the average of 
+expanded cells was almost 20% faster.
+
+for part (b) lets take 2 adjacent states and just pick g values to be g(a) = 100 and g(b) =1 then we can simplify the
+given equation to:
+	
+	c*huestic(a) + c*g(a) -g(a) ?= c*huestic(b) + c*g(b) -g(b)
+
+	let us assume the huestic is negligable compared to the g values then we have (after substitution)
+	
+	100c- 100 ?= c-1
+
+in this example picking a c <1 would yield a f(x) that would favor larger values of g(x). conversely, picking a c>1 would 
+yeild a f(x) that favors smaller values of g(x).
