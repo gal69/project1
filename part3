@@ -21,16 +21,28 @@ public static LinkedList<Coordinates> reallyclosed = new LinkedList<Coordinates>
 
   public static void main(String[] args)
   {
-    final int DIM=4;
-    final double P=.4;
-    
+    final int DIM= 10;
+    final double P=.3333;
+    int running=0;
+     int found=0;
+     int notfound=0;
+     double gaverage = 0.0;
+     
+    while (running<100)
+    {
+    	closedlist.clear();
+    	openlist.clear();
+    	reallyclosed.clear();
+    	prev = new Coordinates(0,0,DIM);
+    	curr = new Coordinates(0,0,DIM);
+    	path= "";
     // we need to keep track of some stuff so just use arrays to do that
     //initialize stuff
     
-    //intGrid(DIM, P);
+    intGrid(DIM, P);
     intAllgrids(DIM);
     //start at 0,0
-    grid = new int[][]{ {0,0,0,0} , {1,0,1,1}, {0,0,0,1},{0,0,0,0} };
+    //grid = new int[][]{ {0,0,0,0} , {1,0,1,1}, {0,0,0,1},{0,0,0,0} };
     Coordinates start= new Coordinates(0,0,DIM);
     start.weight =(int)DIM;
     prev= new Coordinates(0,0,DIM);
@@ -50,7 +62,7 @@ public static LinkedList<Coordinates> reallyclosed = new LinkedList<Coordinates>
 	i++;
 		
     }
-	while((openlist.peek()!= null) && i<=3);
+	while((openlist.peek()!= null)&& i<=DIM*DIM );
 	
     
     printInt(grid);
@@ -65,16 +77,25 @@ public static LinkedList<Coordinates> reallyclosed = new LinkedList<Coordinates>
     // path should have the last ordered pair of destination if not failure
     if(!(path.equals("")) && ((prev.x==(DIM-1) && prev.y==(DIM-2) || (prev.x==(DIM-2) && prev.y==(DIM-1)))))
     {
-    	
+    
+    	found++;
+    	gaverage+= closedlist.size();
     	System.out.println("\na solution was found by: "+editPath(path)+" \n");
     }
     else
     {
+    	notfound++;
+    	
        System.out.println("\n no path was found:\n");
     }
+    running++;
    }
+    System.out.println(" DIM: 10 total runs: 100");
+   System.out.println("total times path found: "+found);
+   System.out.println("total times path notfound: "+notfound);
+   System.out.println("average closedlist size in found solutions: " +(gaverage)/found);
    
- 
+  }
 
 
 // first note this IS a recursive func next if you have question its not going to be easy to explain
@@ -125,7 +146,7 @@ public static LinkedList<Coordinates> reallyclosed = new LinkedList<Coordinates>
 	
 		
 		// hue is already set so now we can go straight to g
-		// this g formula is probably bad but it should not effect overal ability
+		// this g formula is probably bad but it should not effect overall ability
 		if(x==y && y==0)
 		{
 			ggrid[x][y]=(point.dim-1)*2;
@@ -244,9 +265,7 @@ public static LinkedList<Coordinates> reallyclosed = new LinkedList<Coordinates>
         {
           knwgrid[i][j]='?';
 	  ggrid[i][j]= 0;
-	  huegrid[i][j]= ((Math.sqrt(Math.pow((i-dim),2)+Math.pow((j-dim),2)))+
-				  Math.abs(i-dim)+Math.abs(j-dim) +
-				  Math.max( Math.abs(i-dim),Math.abs(j-dim) ))/3.0 ;;
+	  huegrid[i][j]=  Math.max( Math.abs(i-dim),Math.abs(j-dim) )/1.0 ;;
 	  fgrid[i][j]=-1.0;
 	  
         }
@@ -294,6 +313,8 @@ public static void intGrid(int n, double p) {
 	}
 
 public static String editPath(String path2) {
+	try
+	{
 	String returner = "";
 	int x,y ;
 	
@@ -341,6 +362,11 @@ public static String editPath(String path2) {
 		
 	}
 	return newone;
+	}
+	catch (Exception e)
+	{
+		return " soultion found but path could not be constructed";
+	}
 	
 }
 public static void printInt( int[][] temp)
