@@ -1,26 +1,25 @@
-import java.util.*;
-import java.lang.*;
-import Coordinates;
+import java.util.LinkedList;
+import java.util.PriorityQueue;
 
 
 
 // coded jsut needs to be debugged now
 
-public class part3
+public class PartThree
 {
 
 
 public static int[][] grid;
 public static char[][] knwgrid;
-public static int[][] ggrid;
+public static double[][] ggrid;
 public static double[][] huegrid;
 public static double[][] fgrid;
 public static String path="";
-public  static Coordinates prev;
+public static Coordinates prev;
 public static PriorityQueue<Coordinates> openlist= new PriorityQueue<Coordinates>();
-public static LinkList<Coordinates> closedlist = new LinkList<Coordinates>();
+public static LinkedList<Coordinates> closedlist = new LinkedList<Coordinates>();
 
-  public static void main(Strings[] args)
+  public static void main(String[] args)
   {
     final int DIM=3;
     final double P=.1;
@@ -40,7 +39,7 @@ public static LinkList<Coordinates> closedlist = new LinkList<Coordinates>();
     while(!status)
     {
     	path = "";
-    	Coordinates start= new Coordinates(0,0,DIM);
+    start= new Coordinates(0,0,DIM);
 	start.weight= (int)DIM;
 	status = ASTAR(start);
 	openlist.clear();
@@ -62,7 +61,7 @@ public static LinkList<Coordinates> closedlist = new LinkList<Coordinates>();
    // first note this IS a recursive func next if you have question its not going to be easy to explain
    // the fuction edits static varibles to make other parts easier if you need to print things out
    // as we traverse the grid
-   public boolean ASTAR( Coordinates point)
+   public static  boolean ASTAR( Coordinates point)
    {
    	int x= point.x;
 	int y=point.y;
@@ -77,7 +76,7 @@ public static LinkList<Coordinates> closedlist = new LinkList<Coordinates>();
 	}
 	
 	// there is no solution stop
-	if(!(path.isEqual("")) && openlist.isEmpty() && validAdj(point).isEqual("0000"))
+	if(!(path.equals("")) && openlist.isEmpty() && validAdj(point).equals("0000"))
 	{
 		return true;
 	}
@@ -99,10 +98,11 @@ public static LinkList<Coordinates> closedlist = new LinkList<Coordinates>();
 		// this g formula is probably bad but it should not effect overal ability
 		if(x==y && y==0)
 		{
-			ggrid[x][y]=(dim-1)*2;
+			ggrid[x][y]=(point.dim-1)*2;
+		}
 		else
 		{
-			ggrid[x][y]=Math.max((ggrid[prev.x][prev.y]-1),((dim-1)*2-x-y));
+			ggrid[x][y]=Math.max((ggrid[prev.x][prev.y]-1),((point.dim-1)*2-x-y));
 		}
 		
 		// recall check will be a 4 bit string of 0 or 1's a 0 means dont add
@@ -135,16 +135,12 @@ public static LinkList<Coordinates> closedlist = new LinkList<Coordinates>();
 			openlist.add(temp4);
 		}
 		
-		prev = new Coordinates(x,y);
-		
+		prev = new Coordinates(x,y, point.dim);
+	
 		// this should be the end it means we need to traverse more
-		return (false || ASTAR(openlist.poll()) );
-	
-	
-	
-   
-   }
-    
+		return ( (false) || ASTAR(openlist.poll())) ;
+	 }		
+	}
     
     // kind of confusing basically it returns a binary string '0000'
     //where bits 0-3 are up right down left repectivly are valid adjacent neighbors of 
@@ -153,27 +149,30 @@ public static LinkList<Coordinates> closedlist = new LinkList<Coordinates>();
     
     // i added this later it will also check if the point is IN THE CLOSEDLIST if it is its zero
     
-  public String validAdj(Coordinates point)
+  public static String validAdj(Coordinates point)
   {
   	int x=point.x;
 	int y=point.y;
 	int dim = point.dim;
 	
 	char[] r = {'1','1','1','1'};
-	
-	if( (x-1) <0 || knwgrid[x-1][y]==1 || (closedlist.contains(point.setThis((x-1),y)))
+	point.setThis((x-1),y);
+	if( (x-1) <0 || knwgrid[x-1][y]==1 || (closedlist.contains( point)))
 	{
 		r[0]='0';
 	}
-	if( (x+1)>=dim || knwgrid[x+1][y] ==1 || (closedlist.contains(point.setThis((x+1),y)))
+	point.setThis((x+1),y);
+	if( (x+1)>=dim || knwgrid[x+1][y] ==1 || (closedlist.contains(point)))
 	{
 		r[2]='0';
 	}
-	if( (y-1) <0 || knwgrid[x][y-1]==1 || (closedlist.contains(point.setThis(x,(y-1))))
+	point.setThis(x,(y-1));
+	if( (y-1) <0 || knwgrid[x][y-1]==1 || (closedlist.contains(point)))
 	{
 		r[3]='0';
 	}
-	if( (y+1)>=dim || knwgrid[x][y+1] ==1 || (closedlist.contains(point.setThis(x,(y+1)))
+	point.setThis(x,(y+1));
+	if( (y+1)>=dim || knwgrid[x][y+1] ==1 || (closedlist.contains(point)))
 	{
 		r[1]='0';
 	}
@@ -189,7 +188,7 @@ public static LinkList<Coordinates> closedlist = new LinkList<Coordinates>();
   // 
   
   //nvm made them all one thing
-  public void intAllgrids(int dim)
+  public static void intAllgrids(int dim)
   {
      knwgrid= new char[dim][dim];
      huegrid= new double[dim][dim]; 
@@ -203,9 +202,9 @@ public static LinkList<Coordinates> closedlist = new LinkList<Coordinates>();
         {
           knwgrid[i][j]='?';
 	  ggrid[i][j]= 0;
-	  huegrid[i][j]= (Math.sqrt(Math.pow((i-point.dim),2)+Math.pow((j-point.dim),2)))+
-				  Math.abs(i-point.dim)+Math.abs(j-point.dim) +
-				  Math.max( Math.abs(i-point.dim),Math.abs(j-point.dim) ))/3.0 ;;
+	  huegrid[i][j]= ((Math.sqrt(Math.pow((i-dim),2)+Math.pow((j-dim),2)))+
+				  Math.abs(i-dim)+Math.abs(j-dim) +
+				  Math.max( Math.abs(i-dim),Math.abs(j-dim) ))/3.0 ;;
 	  fgrid[i][j]=-1.0;
 	  
         }
@@ -237,13 +236,15 @@ public static void intGrid(int n, double p) {
 		}
 		grid= arr;
 	}
-public void printIt( T[][] temp)
+public void printIt( Object[][] temp)
 {
+	
+	
 	for(int i=0;i<temp.length;i++)
 	{
-		for(intj=0;j<temp.length;j++)
+		for(int j=0;j<temp.length;j++)
 		{
-			System.out.print(""+temp[i][j]+" ")
+			System.out.print(""+temp[i][j]+" ");
 		}
 		System.out.println();
 	}
