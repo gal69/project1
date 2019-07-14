@@ -21,16 +21,16 @@ public static LinkedList<Coordinates> reallyclosed = new LinkedList<Coordinates>
 
   public static void main(String[] args)
   {
-    final int DIM=5;
-    final double P=.5;
+    final int DIM=4;
+    final double P=.4;
     
     // we need to keep track of some stuff so just use arrays to do that
     //initialize stuff
     
-    intGrid(DIM, P);
+    //intGrid(DIM, P);
     intAllgrids(DIM);
     //start at 0,0
-  
+    grid = new int[][]{ {0,0,0,0} , {1,0,1,1}, {0,0,0,1},{0,0,0,0} };
     Coordinates start= new Coordinates(0,0,DIM);
     start.weight =(int)DIM;
     prev= new Coordinates(0,0,DIM);
@@ -63,9 +63,10 @@ public static LinkedList<Coordinates> reallyclosed = new LinkedList<Coordinates>
     //System.out.println("this path: "+path+"\n"+openlist+"\n"+closedlist+"\n");
     
     // path should have the last ordered pair of destination if not failure
-    if(!(path.equals("")) &&(prev.x==(DIM-1) || prev.y==(DIM-1)))
+    if(!(path.equals("")) && ((prev.x==(DIM-1) && prev.y==(DIM-2) || (prev.x==(DIM-2) && prev.y==(DIM-1)))))
     {
-    	System.out.println("\na solution was found by: "+editPath(path)+" path\n");
+    	
+    	System.out.println("\na solution was found by: "+editPath(path)+" \n");
     }
     else
     {
@@ -294,15 +295,52 @@ public static void intGrid(int n, double p) {
 
 public static String editPath(String path2) {
 	String returner = "";
+	int x,y ;
 	
 	StringTokenizer str = new StringTokenizer(path2, " ");
 	
 	while (str.hasMoreTokens())
 	{
-		returner= returner + "("+str.nextToken()+", "+str.nextToken()+") ";
-	}
 	
-	return returner;
+		returner= returner +" "+str.nextToken()+" "+str.nextToken()+"";
+	
+		
+	}
+	//now remove unneeded points
+	returner = returner.substring(1,returner.length());
+	//System.out.println("\n"+returner+" length of : "+returner.length());
+	int i=0;
+	while(i+6 < (returner.length()-1))
+	{
+		x= Integer.parseInt(String.valueOf(returner.charAt(i)));
+		y= Integer.parseInt(String.valueOf(returner.charAt(i+2)));
+		int x1 = Integer.parseInt(String.valueOf(returner.charAt(i+4)));
+		int y1 = Integer.parseInt(String.valueOf(returner.charAt(i+6)));
+		if((Math.abs(x1-x)+Math.abs(y1-y) )>= 2)
+		{
+			//System.out.println("\n on i =: "+i+" "+returner);
+			//System.out.println(" x y x1 y1: "+x+""+y+""+x1+""+y1+"\n");
+			returner= returner.substring(0, i)+ returner.substring(i+4);
+			
+			//System.out.println("\n"+returner);
+			 i=0;
+		}
+		else
+		{
+			i+=4;	
+		}
+	}
+	//re tokentize it
+     str = new StringTokenizer(returner, " ");
+	String newone= null;
+	while (str.hasMoreTokens())
+	{
+	
+		newone= newone +"("+str.nextToken()+","+str.nextToken()+")->";
+	
+		
+	}
+	return newone;
 	
 }
 public static void printInt( int[][] temp)
