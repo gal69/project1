@@ -1,6 +1,4 @@
-import java.util.LinkedList;
-import java.util.PriorityQueue;
-
+import java.util.*;
 
 
 // coded jsut needs to be debugged now
@@ -16,13 +14,15 @@ public static double[][] huegrid;
 public static double[][] fgrid;
 public static String path="";
 public static Coordinates prev;
-public static PriorityQueue<Coordinates> openlist= new PriorityQueue<Coordinates>();
+public static Coordinates curr;
+public static PriorityQueue<Coordinates> openlist= new PriorityQueue<Coordinates>(1, new CoordinatesComparator());
 public static LinkedList<Coordinates> closedlist = new LinkedList<Coordinates>();
+public static LinkedList<Coordinates> reallyclosed = new LinkedList<Coordinates>();
 
   public static void main(String[] args)
   {
-    final int DIM=3;
-    final double P=.1;
+    final int DIM=5;
+    final double P=.5;
     
     // we need to keep track of some stuff so just use arrays to do that
     //initialize stuff
@@ -30,26 +30,42 @@ public static LinkedList<Coordinates> closedlist = new LinkedList<Coordinates>()
     intGrid(DIM, P);
     intAllgrids(DIM);
     //start at 0,0
-    
+  
     Coordinates start= new Coordinates(0,0,DIM);
     start.weight =(int)DIM;
     prev= new Coordinates(0,0,DIM);
     boolean status = true;
-    
-    while(!status)
+    int i=0;
+    do
     {
+    	openlist.clear();
+		closedlist.clear();
+		// put all the walls back in the list
+		closedlist.addAll(reallyclosed);
+		 //System.out.println(closedlist+"\n");
     	path = "";
-    start= new Coordinates(0,0,DIM);
-	start.weight= (int)DIM;
-	status = ASTAR(start);
-	openlist.clear();
-	closedlist.clear();
-	
+    	start= new Coordinates(0,0,DIM);
+    	start.weight= (int)DIM;
+    	status = ASTAR(start);
+	i++;
+		
     }
+	while((openlist.peek()!= null) && i<=3);
+	
+    
+    printInt(grid);
+    System.out.println();
+    printChar(knwgrid);
+   // System.out.println(openlist+"\n");
+   // System.out.println(closedlist+"\n");
+   // System.out.println(reallyclosed+"\n");
+
+    //System.out.println("this path: "+path+"\n"+openlist+"\n"+closedlist+"\n");
+    
     // path should have the last ordered pair of destination if not failure
-    if(path.charAt(DIM-1)== (char)DIM)
+    if(!(path.equals("")) &&(prev.x==(DIM-1) || prev.y==(DIM-1)))
     {
-    	System.out.println("a solution was found by: \n\n"+path+" path\n");
+    	System.out.println("\na solution was found by: "+editPath(path)+" path\n");
     }
     else
     {
@@ -57,21 +73,33 @@ public static LinkedList<Coordinates> closedlist = new LinkedList<Coordinates>()
     }
    }
    
-   
-   // first note this IS a recursive func next if you have question its not going to be easy to explain
+ 
+
+
+// first note this IS a recursive func next if you have question its not going to be easy to explain
    // the fuction edits static varibles to make other parts easier if you need to print things out
    // as we traverse the grid
    public static  boolean ASTAR( Coordinates point)
    {
    	int x= point.x;
 	int y=point.y;
+	
 	closedlist.add(point);
 	
-	knwgrid[x][y]= (char)grid[x][y];
+	if(grid[x][y]== 1)
+	{
+		knwgrid[x][y]='1';
+	}
+	else
+	{
+		knwgrid[x][y]='0';
+	}
 	// you hit a wall repeat
 	
 	if(grid[x][y]==1)
 	{
+		Coordinates wall= new Coordinates(x,y,point.dim);
+		reallyclosed.add(wall);
 		return false;
 	}
 	
@@ -82,11 +110,12 @@ public static LinkedList<Coordinates> closedlist = new LinkedList<Coordinates>()
 	}
 	else
 	{
-		path= path+""+x+""+y+"";
+		path= path+" "+x+" "+y+" ";
 		
 		// you finished stop
 		if(x==y && (y==(point.dim-1) )  )
 		{
+			//System.out.println("dowe get here");
 			// great we are at the destination
 			return true;
 		}
@@ -108,37 +137,49 @@ public static LinkedList<Coordinates> closedlist = new LinkedList<Coordinates>()
 		// recall check will be a 4 bit string of 0 or 1's a 0 means dont add
 		//to the list 1 means add it
 		String check= validAdj(point);
+		//System.out.println(check);
 		
-		if(check.charAt(0)==1)
+		if(check.charAt(0)=='1')
 		{
 			Coordinates temp1= new Coordinates(x-1,y,point.dim);
 			temp1.weight = ggrid[x][y]-1 +huegrid[x-1][y];
 			openlist.add(temp1);
 			
 		}
-		if(check.charAt(1)==1)
+		if(check.charAt(1)=='1')
 		{
+			//System.out.println("dowe get here");
 			Coordinates temp2= new Coordinates(x,y+1,point.dim);
 			temp2.weight = ggrid[x][y]-1 +huegrid[x][y+1];
 			openlist.add(temp2);
+			//System.out.println("do we get here too");
+			//System.out.println(openlist);
 		}
-		if(check.charAt(2)==1)
+		if(check.charAt(2)=='1')
 		{
 			Coordinates temp3= new Coordinates(x+1,y,point.dim);
 			temp3.weight = ggrid[x][y]-1 +huegrid[x+1][y];
 			openlist.add(temp3);
 		}
-		if(check.charAt(3)==1)
+		if(check.charAt(3)=='1')
 		{
 			Coordinates temp4= new Coordinates(x,y-1,point.dim);
 			temp4.weight = ggrid[x][y]-1 +huegrid[x][y-1];
 			openlist.add(temp4);
 		}
-		
+		//System.out.println(check);
 		prev = new Coordinates(x,y, point.dim);
 	
 		// this should be the end it means we need to traverse more
-		return ( (false) || ASTAR(openlist.poll())) ;
+		// but if the openlist is empty then we cant do anything
+		if(openlist.peek() == null )
+		{
+			return true ;
+		}
+		else
+		{
+		return  ASTAR(openlist.poll()) ;
+		}
 	 }		
 	}
     
@@ -156,23 +197,23 @@ public static LinkedList<Coordinates> closedlist = new LinkedList<Coordinates>()
 	int dim = point.dim;
 	
 	char[] r = {'1','1','1','1'};
-	point.setThis((x-1),y);
-	if( (x-1) <0 || knwgrid[x-1][y]==1 || (closedlist.contains( point)))
+	Coordinates point1 = new Coordinates((x-1),y, point.dim);
+	if( (x-1) <0 || knwgrid[x-1][y]==1 || isThisInThat(point1,closedlist))
 	{
 		r[0]='0';
 	}
-	point.setThis((x+1),y);
-	if( (x+1)>=dim || knwgrid[x+1][y] ==1 || (closedlist.contains(point)))
+	Coordinates point2 = new Coordinates((x+1),y, point.dim);
+	if( (x+1)>=dim || knwgrid[x+1][y] ==1 ||  isThisInThat(point2,closedlist))
 	{
 		r[2]='0';
 	}
-	point.setThis(x,(y-1));
-	if( (y-1) <0 || knwgrid[x][y-1]==1 || (closedlist.contains(point)))
+	Coordinates point3 = new Coordinates(x,(y-1), point.dim);
+	if( (y-1) <0 || knwgrid[x][y-1]==1 ||  isThisInThat(point3,closedlist))
 	{
 		r[3]='0';
 	}
-	point.setThis(x,(y+1));
-	if( (y+1)>=dim || knwgrid[x][y+1] ==1 || (closedlist.contains(point)))
+	Coordinates point4 = new Coordinates(x,(y+1), point.dim);
+	if( (y+1)>=dim || knwgrid[x][y+1] ==1 ||  isThisInThat(point4,closedlist))
 	{
 		r[1]='0';
 	}
@@ -212,6 +253,20 @@ public static LinkedList<Coordinates> closedlist = new LinkedList<Coordinates>()
      knwgrid[0][0]='0';
      knwgrid[dim-1][dim-1]=0;
   }
+  public static boolean isThisInThat(Coordinates a, LinkedList<Coordinates> b)
+  {
+	 Iterator<Coordinates> i= b.iterator() ;
+	 
+	 while(i.hasNext())
+	 {
+		 if( a.equals(a,(Coordinates)i.next()))
+		 {
+			 return true;
+		 }
+		 
+	 }
+	 return false;
+  }
 public static void intGrid(int n, double p) {
 		int [][] arr= new int [n][n];
 		double rand;
@@ -236,7 +291,47 @@ public static void intGrid(int n, double p) {
 		}
 		grid= arr;
 	}
-public void printIt( Object[][] temp)
+
+public static String editPath(String path2) {
+	String returner = "";
+	
+	StringTokenizer str = new StringTokenizer(path2, " ");
+	
+	while (str.hasMoreTokens())
+	{
+		returner= returner + "("+str.nextToken()+", "+str.nextToken()+") ";
+	}
+	
+	return returner;
+	
+}
+public static void printInt( int[][] temp)
+{
+	
+	
+	for(int i=0;i<temp.length;i++)
+	{
+		for(int j=0;j<temp.length;j++)
+		{
+			System.out.print(""+temp[i][j]+" ");
+		}
+		System.out.println();
+	}
+}
+public static void printChar( char[][] temp)
+{
+	
+	
+	for(int i=0;i<temp.length;i++)
+	{
+		for(int j=0;j<temp.length;j++)
+		{
+			System.out.print(""+temp[i][j]+" ");
+		}
+		System.out.println();
+	}
+}
+public static void printDouble( double[][] temp)
 {
 	
 	
