@@ -1,0 +1,24 @@
+public class Coordinates implements Comparable<Coordinates>{
+	int x;
+	int y;
+	int dim;
+	public Coordinates(int first, int second, int third){
+		x=first;
+		y=second;
+		dim=third;
+	}
+	public boolean equals(Object o) {
+		Coordinates input=(Coordinates) o;
+		if(input.x==x && input.y==y) {
+			return true;
+		}	
+		return false;
+	}
+	public int compareTo(Coordinates input) {
+		//Coordinates input=(Coordinates) o;
+		if(input.x==x && input.y==y) {
+			return 0;
+		}
+		return 1;	
+	}
+}
