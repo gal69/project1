@@ -1,0 +1,32 @@
+
+public class Coordinates implements Comparable<Coordinates>{
+	int x;
+	int y;
+	int dim;
+	double metric;
+	public Coordinates(int first, int second, int third){
+		x=first;
+		y=second;
+		dim=third;
+		metric=	Math.pow(Math.pow(dim-1-x, 2)+ Math.pow(dim-1-y, 2), 0.5);
+
+	}
+	public boolean equals(Object o) {
+		Coordinates input=(Coordinates) o;
+		if(input.x==x && input.y==y) {
+			return true;
+		}	
+		return false;
+	}
+	public int compareTo(Coordinates input) {
+		//Coordinates input=(Coordinates) o;
+		if(metric==input.metric) {
+			return 0;
+		}
+		if(metric<input.metric) {
+			return -1;
+		}
+		
+		return 1;	
+	}
+}
