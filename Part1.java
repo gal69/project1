@@ -2,11 +2,12 @@ import java.util.*;
 
 public class Part1 {
 	
-  //main function creates 100 grids for each probability increment of 0.05 and gives the amount that were solvable for each
-  
+	//main function creates 100 grids for each probability increment of 0.05 and gives the amount that were solvable for each
+
+	
 	public static void main(String[] args){
 		int n=100;
-		double p=.05;
+		double p=.25;
 		int count=0;
 		while (p<1) {
 			for(int i=0;i<100;i++) {
@@ -22,9 +23,6 @@ public class Part1 {
 		}
 		return;
 	}
-  
-  //recode of part0
-  
 	public static int[][] genArray(int n, double p) {
 		int [][] arr= new int [n][n];
 		double rand;
@@ -50,19 +48,21 @@ public class Part1 {
 		return arr;
 	}
 	
+	//recode of part0
+
+	
 	public static boolean isSolvable(int[][] grid) {
 		int n=grid.length;
-		ArrayList<Coordinates> openList= new ArrayList<Coordinates>();
+		MinHeap<Coordinates> openList= new MinHeap<Coordinates>();
 		ArrayList<Coordinates> closedList= new ArrayList<Coordinates>();
 		Coordinates temp= new Coordinates(0,0,n);
 		closedList.add(temp);
-		openList.add(temp);
-		Coordinates test= new Coordinates(n-1,n-1,n);
+		openList.insert(temp);
+		boolean finished=false;
 		while(openList.size()!=0) {
-			temp = openList.remove(0);
-			addNeighbors(temp,openList,grid,closedList);			
-			
-			if(openList.contains(test)) {
+			temp = openList.deleteMin();
+			finished=addNeighbors(temp,openList,grid,closedList);
+			if(finished==true) {
 				return true;
 			}
 		}
@@ -70,8 +70,9 @@ public class Part1 {
 	}
 	
 	//adds neighbors of expanded node
-  
-	public static void addNeighbors(Coordinates position, ArrayList<Coordinates> openList, int[][] grid, ArrayList<Coordinates> closedList) {
+
+	
+	public static boolean addNeighbors(Coordinates position, MinHeap<Coordinates> openList, int[][] grid, ArrayList<Coordinates> closedList) {
 		int x=position.x;
 		int y=position.y;
 		int n=grid.length;
@@ -79,7 +80,7 @@ public class Part1 {
 		if(a.x<n && a.x>=0 && a.y<n && a.y>=0) {
 			if(closedList.contains(a)==false) {
 				if(grid[a.x][a.y]==0) {
-					openList.add(a);
+					openList.insert(a);
 					closedList.add(a);
 				}
 			}
@@ -88,7 +89,7 @@ public class Part1 {
 		if(b.x<n && b.x>=0 && b.y<n && b.y>=0) {
 			if(closedList.contains(b)==false) {
 				if(grid[b.x][b.y]==0) {
-					openList.add(b);
+					openList.insert(b);
 					closedList.add(b);
 				}
 			}
@@ -97,7 +98,7 @@ public class Part1 {
 		if(c.x<n && c.x>=0 && c.y<n && c.y>=0) {
 			if(closedList.contains(c)==false) {
 				if(grid[c.x][c.y]==0) {
-					openList.add(c);
+					openList.insert(c);
 					closedList.add(c);
 				}
 			}
@@ -106,11 +107,16 @@ public class Part1 {
 		if(d.x<n && d.x>=0 && d.y<n && d.y>=0) {
 			if(closedList.contains(d)==false) {
 				if(grid[d.x][d.y]==0) {
-					openList.add(d);
+					openList.insert(d);
 					closedList.add(d);
 				}
 			}
 		}
-		return;
-	}
+		boolean finished=false;
+		Coordinates test= new Coordinates(n-1,n-1,n);
+		if(a.equals(test)||b.equals(test)||c.equals(test)||d.equals(test)) {
+			finished=true;
+		}
+		return finished;
+	}	
 }
