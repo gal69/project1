@@ -1,7 +1,5 @@
 import java.util.*;
-
-
-
+// just started made grid and a place to put the target
 
 public class PartThree
 {
@@ -10,9 +8,49 @@ public class PartThree
 
   public static void main(String[] args)
   {
-  
+    
   
   }
-  
+  public static char[][] genArray(int n, double p) {
+		char [][] arr= new int [n][n];
+		double rand;
+		for(int i=0;i<n;i++) {
+			for(int j=0;j<n;j++) {
+				if(i==0 && j==0) {
+					arr[i][j]=0;
+					continue;
+				}
+				if(i==n-1 && j==n-1) {
+					arr[i][j]=0;
+					continue;
+				}
+				rand=Math.random();
+				if(rand<=.2) {
+					arr[i][j]='F';
+					
+				}
+				else
+				{
+				if(rand<=.5) {
+					arr[i][j]='H';
+				}
+				else
+				{
+					if(rand<=.8)
+					{
+						arr[i][j]='O';
+					}
+					else
+					{
+					arr[i][j]='C';
+					}
+				}
+				}
+				
+			}
+		}
+		return arr;
+	}
+
   
 }
