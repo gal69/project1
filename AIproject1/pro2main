@@ -8,9 +8,25 @@ public class PartThree
 
   public static void main(String[] args)
   {
+    char [][] grid = genArray( 50, 0);
+    
+    printChar(grid);
     
   
   }
+  public static void printChar( char[][] temp)
+{
+	
+	
+	for(int i=0;i<temp.length;i++)
+	{
+		for(int j=0;j<temp.length;j++)
+		{
+			System.out.print(""+temp[i][j]+" ");
+		}
+		System.out.println();
+	}
+}
   public static char[][] genArray(int n, double p) {
 		char [][] arr= new int [n][n];
 		double rand;
