@@ -1,16 +1,22 @@
 import java.util.*;
 // just started made grid and a place to put the target
 
-public class PartThree
+public class partone
 {
 
 
 
   public static void main(String[] args)
   {
-    char [][] grid = genArray( 50, 0);
+    char [][] grid = genArray( 50);
     
     printChar(grid);
+    // now to make the target just random *50
+    
+    int x = (int)(Math.random()*50);
+    int y = (int)(Math.random()*50)
+    
+    System.out.println("the target is at: "+x +" "+y); 
     
   
   }
@@ -27,7 +33,7 @@ public class PartThree
 		System.out.println();
 	}
 }
-  public static char[][] genArray(int n, double p) {
+  public static char[][] genArray(int n) {
 		char [][] arr= new int [n][n];
 		double rand;
 		for(int i=0;i<n;i++) {
