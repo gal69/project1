@@ -12,12 +12,28 @@ public static int[][] genArray(int n, double p) {
 					continue;
 				}
 				rand=Math.random();
-				if(rand<=p) {
-					arr[i][j]=1;
+				if(rand<=.2) {
+					arr[i][j]='F';
+					
 				}
-				if(rand>p) {
-					arr[i][j]=0;
+				else
+				{
+				if(rand<=.5) {
+					arr[i][j]='H';
 				}
+				else
+				{
+					if(rand<=.8)
+					{
+						arr[i][j]='O';
+					}
+					else
+					{
+					arr[i][j]='C';
+					}
+				}
+				}
+				
 			}
 		}
 		return arr;
