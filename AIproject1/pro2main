@@ -1,5 +1,6 @@
 import java.util.*;
 // just started made grid and a place to put the target
+public static LinkedList<Coordinates> closedlist = new LinkedList<Coordinates>();
 
 public class partone
 {
@@ -71,6 +72,8 @@ public static int targety;
 		
     
     // this is basically the examine
+    
+    
     do
     {
     // do math about loc
