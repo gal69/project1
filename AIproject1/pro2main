@@ -18,6 +18,14 @@ public class partone
     
     System.out.println("the target is at: "+x +" "+y); 
     
+    // we need to count total number of terrain
+    
+    int numOfF=0;
+    int numOfH=0;
+    int numOfO=0;
+    int numOfC=0;
+    
+    
   
   }
   public static void printChar( char[][] temp)
