@@ -4,30 +4,73 @@ import java.util.*;
 public class partone
 {
 
-
+public static char[][] knwgrid;
+public static int targetx;
+public static int targety;
 
   public static void main(String[] args)
   {
-    char [][] grid = genArray( 50);
+  	final int DIM= 50
+    char [][] grid = genArray( DIM);
     
     printChar(grid);
+    //int knowlege of agent
+    
+    for(int i=0; i< DIM;i++)
+    {
+    	for(int j=0;j<DIM;j++)
+	{
+		knwgrid[i][j]='?';
+		
+	}
+    }
+    
     // now to make the target just random *50
     
-    int x = (int)(Math.random()*50);
-    int y = (int)(Math.random()*50)
+     targetx = (int)(Math.random()*DIM);
+     targety = (int)(Math.random()*DIM)
     
-    System.out.println("the target is at: "+x +" "+y); 
+    System.out.println("the target is at: "+targetx +" "+targety); 
     
     // we need to count total number of terrain
-    
+    int totalsearches =0;
     int numOfF=0;
     int numOfH=0;
     int numOfO=0;
     int numOfC=0;
+    boolean found =false ;
+    
+    // this is basically the examine
+    do
+    {
+    // do math about loc
+    // thats not random
+    
+    found= examine(grid, (int)(Math.random()*50), (int)(Math.random()*50));
+    totalsearches++;
+    }
+    while(!found);
+    
+    System.out.println("great we found it in: "+totalsearches+" tries");
     
     
   
   }
+  public static boolean examine( char[][] grid, int x,int y)
+  {
+  	//may need to insert false negative stuff here with case
+	
+	//
+	
+	if( x==targetx && y=targety)
+	{
+		return true;
+	}
+	else
+	{
+		return false ;
+	}
+}
   public static void printChar( char[][] temp)
 {
 	
