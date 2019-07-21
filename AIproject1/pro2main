@@ -1,5 +1,5 @@
 import java.util.*;
-// just started made grid and a place to put the target
+//need to put in memory for picking
 public static LinkedList<Coordinates> closedlist = new LinkedList<Coordinates>();
 
 public class partone
