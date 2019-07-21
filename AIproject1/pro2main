@@ -34,11 +34,41 @@ public static int targety;
     
     // we need to count total number of terrain
     int totalsearches =0;
-    int numOfF=0;
-    int numOfH=0;
-    int numOfO=0;
-    int numOfC=0;
+    int numoff=0;
+    int numofh=0;
+    int numofo=0;
+    int numoffc=0;
     boolean found =false ;
+    
+    //first count terrain
+    
+    for( int g=0;g<DIM;g++)
+    {
+    	for(int h=0;h<DIM;h++)
+	{
+		if( grid[g][h] =='F')
+		{
+			numoff++;
+		}
+		if( grid[g][h] =='H')
+		{
+			numofh++;
+		}
+		if( grid[g][h] =='O')
+		{
+			numofo++;
+		}
+		if( grid[g][h] =='C')
+		{
+			numoff++;
+		}
+	}
+   }
+		// now pick first choice uniformally at random
+	int pickinga= (int)(Math.random()*50);
+	int pickingb= (int)(Math.random()*50);
+		
+		
     
     // this is basically the examine
     do
@@ -46,7 +76,7 @@ public static int targety;
     // do math about loc
     // thats not random
     
-    found= examine(grid, (int)(Math.random()*50), (int)(Math.random()*50));
+    found= examine(grid, pickinga, pickingb);
     totalsearches++;
     }
     while(!found);
