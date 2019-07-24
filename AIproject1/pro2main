@@ -1,5 +1,9 @@
 import java.util.*;
 //need to put in memory for picking
+
+// add searcher adj fix it 
+
+
 public static LinkedList<Coordinates> closedlist = new LinkedList<Coordinates>();
 
 public class partone
@@ -89,14 +93,69 @@ public static int targety;
     
   
   }
+  // return a 4 by 4 int arrray with x and y targets of adj but -1 if not a valide adj
+  
+  
+  // tthis still needs to be edited to be correct
+  
+  
+  public static int[][] searchAdj(int x ,int y)
+  {
+  	int[][] returner = new int[4][4];
+	
+	//0== up 1 == right == 2==down 3==left
+	// -1 not a valid adj
+	
+	// this is for up
+	if( x<=0 || x >=49)
+	{
+		returner[0][0] = -1;
+		returner[0][1] = -1;
+	}
+	else
+	{
+		returner[0][0] = x+1;
+		returner[0][1] = y;
+	}
+	
+	// this is for up
+	if( y<=0 || y >=49)
+	{
+		returner[0][0] = -1;
+		returner[0][1] = -1;
+	}
+	else
+	{
+		returner[0][0] = x;
+		returner[0][1] = y+1;
+	}
+	
+	
+}
   public static boolean examine( char[][] grid, int x,int y)
   {
   	//may need to insert false negative stuff here with case
-	
+	double random = Math.random();// recall its between 0-1
 	//
 	
 	if( x==targetx && y=targety)
 	{
+		if( grid[x][y]=='F' && random <=.1)
+		{
+		return false;
+		}
+		if(grid[x][y]=='H' && random <=.3)
+		{
+		return false;
+		}
+		if(grid[x][y]=='O' && random <=.7)
+		{
+		return false;
+		}
+		if(grid[x][y]=='C' && random <=.9)
+		{
+		return false;
+		}
 		return true;
 	}
 	else
