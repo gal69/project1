@@ -1,8 +1,7 @@
 import java.util.*;
 //need to put in memory for picking
 
-// add searcher adj fix it 
-
+// edit max of adj
 
 public static LinkedList<Coordinates> closedlist = new LinkedList<Coordinates>();
 
@@ -12,6 +11,9 @@ public class partone
 public static char[][] knwgrid;
 public static int targetx;
 public static int targety;
+public static double[][] containsP;
+
+public static double[][] findingP;
 
   public static void main(String[] args)
   {
@@ -20,12 +22,16 @@ public static int targety;
     
     printChar(grid);
     //int knowlege of agent
+    // in both prabailty arrays for breaking ties
+    
     
     for(int i=0; i< DIM;i++)
     {
     	for(int j=0;j<DIM;j++)
 	{
 		knwgrid[i][j]='?';
+		containsP[i][j]=(1/2500);
+		findP[i][j]=(1/2500);
 		
 	}
     }
@@ -80,10 +86,11 @@ public static int targety;
     
     do
     {
-    // do math about loc
+    found= examine(grid, pickinga, pickingb);
+    
+     // do math about loc
     // thats not random
     
-    found= examine(grid, pickinga, pickingb);
     totalsearches++;
     }
     while(!found);
@@ -152,11 +159,35 @@ public static int targety;
 	
 }
 
-// we will need to have afunction  that returns the max value in a
+// we will need to have a function  that returns the x y in an array in a
 // P array thats what this does
-public static double maxIn( double[][] compare)
+public static int[][] maxIn( double[][] compare)
 {
-	double ret=0;
+	double  ret =0;
+	int[][] point = new { 0,0};
+	for(int i=0;i<50;i++)
+	{
+		for(int j=0;j<50;j++)
+		{
+			if(compare > ret)
+			{
+				ret= compare[i][j];
+				point[0]=i;
+				point[1]=j;
+			}
+		}
+	}
+	return point;
+}
+
+
+// we willneed a fuction that returns the max of adj points aswell
+
+// edit this
+public static int[][] maxOfAdj( double[][] compare, int x ,int y)
+{
+	double  ret =0;
+	int[][] point =searchAdj( x,y);
 	
 	for(int i=0;i<50;i++)
 	{
@@ -165,12 +196,14 @@ public static double maxIn( double[][] compare)
 			if(compare > ret)
 			{
 				ret= compare[i][j];
+				point[0]=i;
+				point[1]=j;
 			}
 		}
 	}
-	return ret;
+	return point;
 }
-
+public static double
   public static boolean examine( char[][] grid, int x,int y)
   {
   	// false negative stuff here 
