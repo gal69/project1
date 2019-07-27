@@ -169,7 +169,7 @@ public static int[][] maxIn( double[][] compare)
 	{
 		for(int j=0;j<50;j++)
 		{
-			if(compare > ret)
+			if(compare[i][j] > ret)
 			{
 				ret= compare[i][j];
 				point[0]=i;
@@ -183,25 +183,30 @@ public static int[][] maxIn( double[][] compare)
 
 // we willneed a fuction that returns the max of adj points aswell
 
-// edit this
+
 public static int[][] maxOfAdj( double[][] compare, int x ,int y)
 {
 	double  ret =0;
 	int[][] point =searchAdj( x,y);
+	int[] returner = new {0,0};
 	
-	for(int i=0;i<50;i++)
+	for(int i=0;i<4;i++)
 	{
-		for(int j=0;j<50;j++)
+		if(point[i][0]<0 || point[i][1]<0)
 		{
-			if(compare > ret)
+			continue;
+		}
+		else
+		{
+			if(compare[point[i][0]][point[i][1]] > ret)
 			{
-				ret= compare[i][j];
-				point[0]=i;
-				point[1]=j;
+				ret= compare[point[i][0]][point[i][1]];
+				returner[0]=point[i][0];
+				returner[1]=point[i][1];
 			}
 		}
 	}
-	return point;
+	return returner;
 }
 public static double
   public static boolean examine( char[][] grid, int x,int y)
