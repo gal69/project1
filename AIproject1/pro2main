@@ -93,48 +93,87 @@ public static int targety;
     
   
   }
-  // return a 4 by 4 int arrray with x and y targets of adj but -1 if not a valide adj
   
   
-  // tthis still needs to be edited to be correct
-  
-  
+  // return a 4 by 4 int arrray with x and y targets of adj but -1 if not a valid adj
   public static int[][] searchAdj(int x ,int y)
   {
   	int[][] returner = new int[4][4];
 	
 	//0== up 1 == right == 2==down 3==left
 	// -1 not a valid adj
+	// first we can set up the coordinates  then check if out of bounds
 	
-	// this is for up
-	if( x<=0 || x >=49)
+	
+	// up
+	returner[0][0]=x--;
+	returner[0][1]=y;
+	
+	// right
+	returner[0][0]=x;
+	returner[0][1]=y++;
+	
+	// down
+	returner[0][0]=x++;
+	returner[0][1]=y;
+	
+	// left
+	returner[0][0]=x;
+	returner[0][1]=y--;
+	
+	
+	// now change if out of bounds
+	// up
+	if( x<=0)
 	{
 		returner[0][0] = -1;
 		returner[0][1] = -1;
 	}
-	else
+	//down
+	if( x>=50)
 	{
-		returner[0][0] = x+1;
-		returner[0][1] = y;
+		returner[2][0] = -1;
+		returner[2][1] = -1;
 	}
 	
-	// this is for up
-	if( y<=0 || y >=49)
+	// left
+	if( y<=0)
 	{
-		returner[0][0] = -1;
-		returner[0][1] = -1;
+		returner[3][0] = -1;
+		returner[3][1] = -1;
 	}
-	else
+	// right
+	if( y>=50)
 	{
-		returner[0][0] = x;
-		returner[0][1] = y+1;
+		returner[1][0] = -1;
+		returner[1][1] = -1;
 	}
-	
+	return returner;
 	
 }
+
+// we will need to have afunction  that returns the max value in a
+// P array thats what this does
+public static double maxIn( double[][] compare)
+{
+	double ret=0;
+	
+	for(int i=0;i<50;i++)
+	{
+		for(int j=0;j<50;j++)
+		{
+			if(compare > ret)
+			{
+				ret= compare[i][j];
+			}
+		}
+	}
+	return ret;
+}
+
   public static boolean examine( char[][] grid, int x,int y)
   {
-  	//may need to insert false negative stuff here with case
+  	// false negative stuff here 
 	double random = Math.random();// recall its between 0-1
 	//
 	
