@@ -11,7 +11,7 @@ public class partone
 public static char[][] knwgrid;
 public static int targetx;
 public static int targety;
-public static double[][] containsP;
+public static double[][] containingP;
 
 public static double[][] findingP;
 
