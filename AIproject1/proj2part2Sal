@@ -1,0 +1,193 @@
+
+public class Proj2part2 {
+	public static void main(String []args) {
+		Cell[][] area=genArray();
+		for(int i=0;i<52;i++) {
+			for(int j=0;j<52;j++) {
+			}
+		}
+		int coordinate1=(int)(Math.random()*50);
+		int coordinate2=(int)(Math.random()*50);
+		Cell target=area[coordinate1][coordinate2];
+		target.target=true;
+		
+		boolean search=false;
+		Cell prevtarget;
+		Cell temp=Search(area);
+		double p=Math.random();
+		if(p>temp.terrain&&temp.target==true) {
+			search=true;
+		}
+		int count=1;
+		while(search==false) {
+			prevtarget=target;
+			target=SwitchTarget(area, prevtarget);
+			while(target.terrain==0){
+				target=SwitchTarget(area, prevtarget);
+			}
+			prevtarget.target=false;
+			target.target=true;
+			System.out.println(target.x+", "+target.y);
+			Update(prevtarget.terrain,target.terrain,area);
+			temp=Search(area);
+			p=Math.random();
+			if(p>temp.terrain&&temp.target==true) {
+				search=true;
+			}
+			count++;
+		}
+		System.out.println(temp.x+", "+temp.y);
+		System.out.println(count);		
+	}
+	
+	public static Cell Search(Cell[][] area) {
+		Cell max=area[0][0];
+		for(int i=0;i<50;i++) {
+			for(int j=0;j<50;j++) {
+				if(area[i][j].probOfFinding*(1-area[i][j].terrain)==max.probOfFinding*(1-max.terrain)) {
+					if(max.timesSearched>area[i][j].timesSearched) {
+						max=area[i][j];
+					}
+				}
+				if(area[i][j].probOfFinding*(1-area[i][j].terrain)>max.probOfFinding*(1-max.terrain)) {
+					max=area[i][j];
+				}
+				
+			}
+		}
+		max.timesSearched++;
+		return max;
+	}
+	
+	public static void Update(double a, double b, Cell[][] area) {
+		double count=0;
+		for(int i=1;i<51;i++) {
+			for(int j=1;j<51;j++) {
+				if(area[i][j].terrain==a) {
+					if(!OnlyNextToZeroes(area[i][j],area)) {
+						if(AdjacentToGiven(area[i][j],area,b)) {
+							count++;
+						}
+					}
+					continue;
+				}
+				if(area[i][j].terrain==b) {
+					if(!OnlyNextToZeroes(area[i][j],area)) {
+						if(AdjacentToGiven(area[i][j],area,a)) {
+							count++;
+						}
+					}
+				}
+				area[i][j].probOfFinding=0;
+			}
+		}
+		
+		
+		double temp=1.0/count;
+		for(int i=1;i<51;i++) {
+			for(int j=1;j<51;j++) {
+				if(area[i][j].terrain==a) {
+					if(!OnlyNextToZeroes(area[i][j],area)) {
+						if(AdjacentToGiven(area[i][j],area,b)) {
+							area[i][j].probOfFinding=temp;
+						}
+					}
+					continue;
+				}
+				if(area[i][j].terrain==b) {
+					if(!OnlyNextToZeroes(area[i][j],area)) {
+						if(AdjacentToGiven(area[i][j],area,a)) {
+							area[i][j].probOfFinding=temp;
+						}
+					}
+				}
+			}
+		}
+		return;
+		
+	}
+	
+	public static Cell SwitchTarget(Cell[][] area, Cell currtarget) {
+		int p=(int)Math.ceil(Math.random()*4.0);
+		int x=currtarget.x;
+		int y=currtarget.y;
+		if(p==1) {
+			return area[x+1][y];
+		}
+		if(p==2) {
+			return area[x-1][y];
+		}
+		if(p==3) {
+			return area[x][y+1];
+		}
+		return area[x][y-1];
+	}
+	public static boolean OnlyNextToZeroes(Cell current, Cell[][] area) {
+		int x=current.x;
+		int y=current.y;
+		if(area[x+1][y].probOfFinding!=0) {
+			return true;
+		}
+		if(area[x-1][y].probOfFinding!=0) {
+			return true;
+		}
+		if(area[x][y+1].probOfFinding!=0) {
+			return true;
+		}
+		if(area[x][y-1].probOfFinding!=0) {
+			return true;
+		}
+		return true;
+	}
+	public static boolean AdjacentToGiven(Cell current, Cell[][] area, double given) {
+		int x=current.x;
+		int y=current.y;
+		if(area[x+1][y].terrain==given) {
+			return true;
+		}
+		if(area[x-1][y].terrain==given) {
+			return true;
+		}
+		if(area[x][y+1].terrain==given) {
+			return true;
+		}
+		if(area[x][y-1].terrain==given) {
+			return true;
+		}
+		return false;
+	}
+	
+	
+	
+	
+	public static Cell[][] genArray() {
+		Cell[][] area=new Cell[52][52];
+		for(int i=0;i<52;i++) {
+			area[0][i]=new Cell(0,0,0,i,false);
+			area[51][i]=new Cell(0,0,51,i,false);
+		}
+		for(int i=1;i<51;i++) {
+			area[i][0]=new Cell(0,0,i,0,false);
+			
+			area[i][51]=new Cell(0,0,i,51,false);
+		}
+		double k=1.0/2500.0;
+		for(int i=1;i<51;i++) {
+			for(int j=1;j<51;j++) {
+				double p=Math.random();
+				double temp=0.3;
+				if(p<=.5) {
+					temp=0.7;
+				}
+				if(p<=.2) {
+					temp=0.1;
+				}
+				if(p>.8) {
+					temp=0.9;
+				}
+				area[i][j]= new Cell(temp,k,i,j,false);
+			}
+		}
+		return area;
+	}
+}
