@@ -1,16 +1,7 @@
 
 public class Proj2 {
 	public static void main(String args[]) {
-		/*Cell[][] area=genArray();
-		Cell temp=Search(area);
-		int count=1;
-		while(temp.target==false) {
-			
-			temp=Search(area);
-			count++;
-		}
-		System.out.println(temp.x+", "+temp.y);
-		System.out.println(count);*/
+
 		double superCount=0;
 		boolean search;
 		for(int i=0;i<1;i++) {
@@ -34,18 +25,7 @@ public class Proj2 {
 			superCount+=count;
 		}
 		System.out.println(superCount/1);
-		/*for(int i=0;i<50;i++) {
-			for(int j=0;j<50;j++) {
-				if(area[i][j].target==true) {
-					System.out.print(1);
-				}
-				else {
-					System.out.print(0);
-				}
-				//System.out.print(area[i][j].terrain + " ");
-			}
-			System.out.println();
-		}*/
+		
 		return;
 	}
 	public static Cell Search1(Cell[][] area) {
@@ -128,7 +108,7 @@ public class Proj2 {
 		int coordinate1=(int)(Math.random()*50);
 		int coordinate2=(int)(Math.random()*50);
 		area[coordinate1][coordinate2].target=true;
-		//System.out.println(coordinate1+", "+coordinate2);
+		
 		return area;
 	}	
 }
