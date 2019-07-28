@@ -1,0 +1,134 @@
+
+public class Proj2 {
+	public static void main(String args[]) {
+		/*Cell[][] area=genArray();
+		Cell temp=Search(area);
+		int count=1;
+		while(temp.target==false) {
+			
+			temp=Search(area);
+			count++;
+		}
+		System.out.println(temp.x+", "+temp.y);
+		System.out.println(count);*/
+		double superCount=0;
+		boolean search;
+		for(int i=0;i<1;i++) {
+			Cell[][] area=genArray();
+			Cell temp=Search2(area);
+			search=false;
+			double p=Math.random();
+			if(p>temp.terrain&&temp.target==true) {
+				search=true;
+			}
+			int count=1;
+			while(search==false) {
+				//System.out.println(temp.x+", "+temp.y);
+				temp=Search2(area);
+				p=Math.random();
+				if(p>temp.terrain&&temp.target==true) {
+					search=true;
+				}
+				count++;
+			}
+			superCount+=count;
+		}
+		System.out.println(superCount/1);
+		/*for(int i=0;i<50;i++) {
+			for(int j=0;j<50;j++) {
+				if(area[i][j].target==true) {
+					System.out.print(1);
+				}
+				else {
+					System.out.print(0);
+				}
+				//System.out.print(area[i][j].terrain + " ");
+			}
+			System.out.println();
+		}*/
+		return;
+	}
+	public static Cell Search1(Cell[][] area) {
+		Cell max=area[0][0];
+		double temp;
+		int coor1=0;
+		int coor2=0;
+		for(int i=0;i<50;i++) {
+			for(int j=0;j<50;j++) {
+				if(area[i][j].probOfFinding>max.probOfFinding) {
+					max=area[i][j];
+					coor1=i;
+					coor2=j;
+					max.x=i;
+					max.y=j;
+				}
+			}
+		}
+		temp=max.probOfFinding*(1-max.terrain)/2499.0;
+		max.probOfFinding=max.probOfFinding*max.terrain;
+		for(int i=0;i<50;i++) {
+			for(int j=0;j<50;j++) {
+				if(i==coor1&&j==coor2) {
+					continue;
+				}
+				area[i][j].probOfFinding+=temp;
+			}
+		}
+		return max;
+	}
+	
+	public static Cell Search2(Cell[][] area) {
+		Cell max=area[0][0];
+		double temp;
+		int coor1=0;
+		int coor2=0;
+		for(int i=0;i<50;i++) {
+			for(int j=0;j<50;j++) {
+				if(area[i][j].probOfFinding*(1-area[i][j].terrain)>max.probOfFinding*(1-max.terrain)) {
+					max=area[i][j];
+					coor1=i;
+					coor2=j;
+					max.x=i;
+					max.y=j;
+				}
+			}
+		}
+		temp=max.probOfFinding*(1-max.terrain)/2499.0;
+		max.probOfFinding=max.probOfFinding*max.terrain;
+		for(int i=0;i<50;i++) {
+			for(int j=0;j<50;j++) {
+				if(i==coor1&&j==coor2) {
+					continue;
+				}
+				area[i][j].probOfFinding+=temp;
+			}
+		}
+		return max;
+	}
+	public static Cell[][] genArray() {
+		Cell[][] area=new Cell[50][50];
+		double k=1.0/2500.0;
+		for(int i=0;i<50;i++) {
+			for(int j=0;j<50;j++) {
+				double p=Math.random();
+				double temp=0.3;
+				if(p<=.5) {
+					temp=0.7;
+				}
+				if(p<=.2) {
+					temp=0.1;
+				}
+				if(p>.8) {
+					temp=0.9;
+				}
+				area[i][j]= new Cell(temp,k);
+				area[i][j].target=false;
+			}
+		}
+		int coordinate1=(int)(Math.random()*50);
+		int coordinate2=(int)(Math.random()*50);
+		area[coordinate1][coordinate2].target=true;
+		//System.out.println(coordinate1+", "+coordinate2);
+		return area;
+	}	
+}
