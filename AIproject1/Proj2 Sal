@@ -44,7 +44,7 @@ public class Proj2 {
 				}
 			}
 		}
-		temp=max.probOfFinding*(1-max.terrain)/2499.0;
+		temp=max.probOfFinding*(1.0-max.terrain)/2499.0;
 		max.probOfFinding=max.probOfFinding*max.terrain;
 		for(int i=0;i<50;i++) {
 			for(int j=0;j<50;j++) {
@@ -64,7 +64,7 @@ public class Proj2 {
 		int coor2=0;
 		for(int i=0;i<50;i++) {
 			for(int j=0;j<50;j++) {
-				if(area[i][j].probOfFinding*(1-area[i][j].terrain)>max.probOfFinding*(1-max.terrain)) {
+				if(area[i][j].probOfFinding*(1.0-area[i][j].terrain)>max.probOfFinding*(1.0-max.terrain)) {
 					max=area[i][j];
 					coor1=i;
 					coor2=j;
@@ -73,7 +73,7 @@ public class Proj2 {
 				}
 			}
 		}
-		temp=max.probOfFinding*(1-max.terrain)/2499.0;
+		temp=max.probOfFinding*(1.0-max.terrain)/2499.0;
 		max.probOfFinding=max.probOfFinding*max.terrain;
 		for(int i=0;i<50;i++) {
 			for(int j=0;j<50;j++) {
