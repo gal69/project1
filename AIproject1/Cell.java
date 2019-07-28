@@ -26,12 +26,8 @@ public class Cell {
 	boolean target;
 	int x;
 	int y;
-	
 	public Cell(double c, double prob) {
 		terrain=c;
-		probOfFinding=prob;
-		
-	}
-	
-	
+		probOfFinding=prob;	
+	}	
 }*/
