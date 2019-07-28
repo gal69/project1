@@ -1,12 +1,6 @@
 package project2;
-
 import java.util.*;
 import java.lang.*;
-//need to put in memory for picking
-
-// edit max of adj
-
-public static LinkedList<Coordinates> closedlist = new LinkedList<Coordinates>();
 
 public class part2
 {
@@ -24,7 +18,6 @@ public static double[][] findingP;
     char [][] grid = genArray( DIM);
     
     printChar(grid);
-
     
     
     for(int i=0; i< DIM;i++)
@@ -32,8 +25,8 @@ public static double[][] findingP;
     	for(int j=0;j<DIM;j++)
 	{
 		knwgrid[i][j]='?';
-		containsP[i][j]=(1/2500);
-		findP[i][j]=(1/2500);
+		containingP[i][j]=(1/2500);
+		findingP[i][j]=(1/2500);
 		
 	}
     }
@@ -41,7 +34,7 @@ public static double[][] findingP;
     // now to make the target just random *50
     
      targetx = (int)(Math.random()*DIM);
-     targety = (int)(Math.random()*DIM)
+     targety = (int)(Math.random()*DIM);
     
     System.out.println("the target is at: "+targetx +" "+targety); 
     
@@ -84,26 +77,36 @@ public static double[][] findingP;
 		
     
     // this is basically the examine
-    
+    int[][] temp;
     
     do
     {
     found= examine(grid, pickinga, pickingb);
     
-     // do math about loc
-    // thats not random
+    doConP(pickinga, pickingb);
+    
+    temp= maxIn(containingP);
+    pickinga = temp[0][0];
+    pickingb=temp[0][1];
+    
+    //moving target 1 space in a random direction
+    //returns a char[2]; NOTE:
+    //char[0&&1] == 'X' then agent found target
+    //char[0] = type1; char[1] = type2;
+    moveTarget(found, grid);
     
     totalsearches++;
     }
     while(!found);
     
     System.out.println("great we found it in: "+totalsearches+" tries");
+    System.out.println("the target was at: ("+pickinga+", "+pickingb+")");
     
     
   
   }
   
-  //this is the function that is mainly most of part 2 (Moving Target)
+//this is the function that is mainly most of part 2 (Moving Target)
   //At each iteration of the search, if fail:
   //target will move to a neighboring cell (With uniform prob for ea. spot)
   //returns the coords of where the target was seen (type1 x type2)
@@ -113,7 +116,7 @@ public static double[][] findingP;
   //retTypes[0] = type1; retTypes[1] = type2; (no order!)
   //note: if returned char[0 or 1] == 'X' means target has been found
   //int[][] types is there just incase we need the actual coords (can del later)
-  public static char[] moveTarget(boolean found, char grid)
+  public static char[] moveTarget(boolean found, char[][] grid)
   {
   	int[][] types = new int[2][2];
   	char[] retTypes = new char[2];
@@ -128,6 +131,7 @@ public static double[][] findingP;
   	//personal check:
   	//System.out.println("the target is at: "+targetx +" "+targety); 
   	//get random number 1-4 (1 = left, 2 = right, 3 = up, 4 = down)
+  	Random rand = new Random();
   	int rNum = rand.nextInt((4 - 1) + 1) + 1;
   	//depending on where target may be, it may not be able to move a certain way
   	//it will just move onto the opposite direction
@@ -140,22 +144,22 @@ public static double[][] findingP;
   			//it is column 0 so we cannot move left, go right instead
   			types[0][0] = targetx;
   			types[0][1] = targety;
-  			char[0] = grid[targetx][targety];
+  			retTypes[0] = grid[targetx][targety];
   			targety = targety + 1;
   			types[1][0] = targetx;
   			types[1][1] = targety;
-  			char[1] = grid[targetx][targety];
+  			retTypes[1] = grid[targetx][targety];
   		}
   		else
   		{
   			//target is not at a point where it cannot move left
   			types[0][0] = targetx;
   			types[0][1] = targety;
-  			char[0] = grid[targetx][targety];
+  			retTypes[0] = grid[targetx][targety];
   			targety = targety - 1;
   			types[1][0] = targetx;
   			types[1][1] = targety;
-  			char[1] = grid[targetx][targety];
+  			retTypes[1] = grid[targetx][targety];
   		}
   	}
   	else if(rNum == 2) //right
@@ -165,22 +169,22 @@ public static double[][] findingP;
   			//it is column 50 so we cannot move right, go left instead
   			types[0][0] = targetx;
   			types[0][1] = targety;
-  			char[0] = grid[targetx][targety];
+  			retTypes[0] = grid[targetx][targety];
   			targety = targety - 1;
   			types[1][0] = targetx;
   			types[1][1] = targety;
-  			char[1] = grid[targetx][targety];
+  			retTypes[1] = grid[targetx][targety];
   		}
   		else
   		{
   			//target is not at point where it cannot move right
   			types[0][0] = targetx;
   			types[0][1] = targety;
-  			char[0] = grid[targetx][targety];
+  			retTypes[0] = grid[targetx][targety];
   			targety = targety + 1;
   			types[1][0] = targetx;
   			types[1][1] = targety;
-  			char[1] = grid[targetx][targety];
+  			retTypes[1] = grid[targetx][targety];
   		}
   	}
   	else if(rNum == 3) //up
@@ -190,22 +194,22 @@ public static double[][] findingP;
   			//target cannot move up, go down instead
   			types[0][0] = targetx;
   			types[0][1] = targety;
-  			char[0] = grid[targetx][targety];
+  			retTypes[0] = grid[targetx][targety];
   			targetx = targetx + 1;
   			types[1][0] = targetx;
   			types[1][1] = targety;
-  			char[1] = grid[targetx][targety];
+  			retTypes[1] = grid[targetx][targety];
   		}
   		else
   		{
   			//go up
   			types[0][0] = targetx;
   			types[0][1] = targety;
-  			char[0] = grid[targetx][targety];
+  			retTypes[0] = grid[targetx][targety];
   			targetx = targetx - 1;
   			types[1][0] = targetx;
   			types[1][1] = targety;
-  			char[1] = grid[targetx][targety];
+  			retTypes[1] = grid[targetx][targety];
   		}
   	}
   	else if(rNum == 4) //down
@@ -215,22 +219,22 @@ public static double[][] findingP;
   			//targetx cannot move down, go up instead
   			types[0][0] = targetx;
   			types[0][1] = targety;
-  			char[0] = grid[targetx][targety];
+  			retTypes[0] = grid[targetx][targety];
   			targetx = targetx - 1;
   			types[1][0] = targetx;
   			types[1][1] = targety;
-  			char[1] = grid[targetx][targety];
+  			retTypes[1] = grid[targetx][targety];
   		}
   		else
   		{
   			//targetx moves down
   			types[0][0] = targetx;
   			types[0][1] = targety;
-  			char[0] = grid[targetx][targety];
+  			retTypes[0] = grid[targetx][targety];
   			targetx = targetx + 1;
   			types[1][0] = targetx;
   			types[1][1] = targety;
-  			char[1] = grid[targetx][targety];
+  			retTypes[1] = grid[targetx][targety];
   		}
   	}
   	else
@@ -240,6 +244,52 @@ public static double[][] findingP;
 
   	return retTypes;
   }
+  
+  public static void doConP( int x, int y)
+  {
+  	double intP = knwgrid[x][y];
+	
+  	if(knwgrid[x][y]=='F')
+	{
+		containingP[x][y]*= (.1);
+		intP*=(.9);
+	}
+	if(knwgrid[x][y]=='H')
+	{
+		containingP[x][y]*= (.3);
+		intP*=(.7);
+	}
+	if(knwgrid[x][y]=='O')
+	{
+		containingP[x][y]*= (.7);
+		intP*=(.3);
+	}
+	if(knwgrid[x][y]=='C')
+	{
+		containingP[x][y]*= (.9);
+		intP*=(.1);
+	}
+	
+	intP/=(2499);
+	for( int i=0;i<50;i++)
+	{
+		for(int j=0;j<50;j++)
+		{
+			if(i==x && y==j)
+			{
+			continue;
+			}
+			else
+			{
+			containingP[i][j]+=(intP);
+			}
+		}
+	}
+	
+	
+  
+  }
+  
   
   // return a 4 by 4 int arrray with x and y targets of adj but -1 if not a valid adj
   public static int[][] searchAdj(int x ,int y)
@@ -303,7 +353,7 @@ public static double[][] findingP;
 public static int[][] maxIn( double[][] compare)
 {
 	double  ret =0;
-	int[][] point = new { 0,0};
+	int[][] point = new int[1][1];
 	for(int i=0;i<50;i++)
 	{
 		for(int j=0;j<50;j++)
@@ -311,8 +361,8 @@ public static int[][] maxIn( double[][] compare)
 			if(compare[i][j] > ret)
 			{
 				ret= compare[i][j];
-				point[0]=i;
-				point[1]=j;
+				point[0][0]=i;
+				point[0][1]=j;
 			}
 		}
 	}
