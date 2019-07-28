@@ -2,6 +2,13 @@ package project2;
 import java.util.*;
 import java.lang.*;
 
+//personal ideas for how the moveTarget return of type1xtype2 can help us:
+//after that report comes in (assuming a failed search) then we can scan
+//the grid and look at each cell one by one checking its neighboring cells
+//and keep the two cells if they match the type1xtype2 description
+//however, for part 4 when the agent can only move one by one, I don't know
+//how the data gathering will work for that.
+
 public class part2
 {
 
