@@ -85,6 +85,154 @@ public class Proj2 {
 		}
 		return max;
 	}
+	
+	public static Cell Search2L(Cell[][] area, Cell start) {
+		Cell max=area[start.x][start.y];
+		double temp;
+		int coor1=start.x;
+		int coor2=start.y;
+		int[][] adj = searchAdj(start, area);
+		
+		// this part is for LOCAL searching 
+		for(int i=0;i<4;i++) {
+			
+				if(adj[i][0]<=-1 || adj[i][1]<= -1)
+				{
+					continue;
+				}
+				else
+				{
+				if(area[adj[i][0]][adj[i][1]].probOfFinding*(1.0-area[adj[i][0]][adj[i][1]].terrain)>max.probOfFinding*(1.0-max.terrain)) {
+					max=area[adj[i][0]][adj[i][1]];
+					coor1=adj[i][0];
+					coor2=adj[i][1];
+					max.x=adj[i][0];
+					max.y=adj[i][1];
+					
+				}
+				}
+			
+		}
+		temp=max.probOfFinding*(1.0-max.terrain)/2499.0;
+		max.probOfFinding=max.probOfFinding*max.terrain;
+		for(int i=0;i<50;i++) {
+			for(int j=0;j<50;j++) {
+				if(i==coor1&&j==coor2) {
+					continue;
+				}
+				area[i][j].probOfFinding+=temp;
+			}
+		}
+	
+		return max;
+	}
+
+	public static Cell Search1L(Cell[][] area, Cell start) {
+		Cell max=area[start.x][start.y];
+		double temp;
+		int coor1=start.x;
+		int coor2=start.y;
+		int[][] adj = searchAdj(start, area);
+	
+			
+		
+		// this part is for LOCAL searching 
+		for(int i=0;i<4;i++) {
+			
+				if( (adj[i][0] <=-1)|| adj[i][1]<=-1)
+				{
+					continue;
+				}
+				else
+				{
+					
+				if(area[adj[i][0]][adj[i][1]].probOfFinding > max.probOfFinding) {
+					max=area[adj[i][0]][adj[i][1]];
+					coor1=adj[i][0];
+					coor2=adj[i][1];
+					max.x=adj[i][0];
+					max.y=adj[i][1];
+					
+				}
+				
+			}
+		}
+		temp=max.probOfFinding*(1.0-max.terrain)/2499.0;
+		max.probOfFinding=max.probOfFinding*max.terrain;
+		for(int i=0;i<50;i++) {
+			for(int j=0;j<50;j++) {
+				if(i==coor1&&j==coor2) {
+					continue;
+				}
+				area[i][j].probOfFinding+=temp;
+			}
+		}
+		
+		return max;
+	}
+	
+	// this returns a 2 x2 array of the Cells of the current adj location
+	
+	public static int[][] searchAdj(Cell temp, Cell[][] grid)
+	  {
+	  	int[][] returner = new int[4][2];
+		
+		//0== up 1 == right == 2==down 3==left
+		// -1 not a valid 
+		// first we can set up the coordinates  then check if out of bounds
+		
+	  	
+		// up
+		if(temp.x -1 >=0)
+		{
+			returner[0][0]= (int) (temp.x)-1;
+			returner[0][1]= ((int)temp.y);
+		}
+		else
+		{
+			returner[0][0]= -1;
+			returner[0][1]=-1;
+		}
+		//right
+		if(temp.y +1 <50)
+		{
+			
+			returner[1][0]=temp.x;
+			returner[1][1]=temp.y+1;
+		}
+		else
+		{
+			returner[0][1]= -1;
+			returner[1][1]=-1;
+		}
+		// down
+		if(temp.x +1 <50)
+		{
+			
+			returner[2][0]=temp.x+1;
+			returner[2][1]=temp.y;
+		}
+		else
+		{
+			returner[2][0]=-1;
+			returner[2][1]=-1;
+		}
+		// left
+		if(temp.y -1 >=0)
+		{
+			returner[3][0]=temp.x;
+			returner[3][1]=temp.y-1;
+		}
+		else
+		{
+			returner[3][0]=-1;
+			returner[3][1]=-1;
+		}
+		
+		//System.out.println(returner[0][0]+"  "+returner[1][1]+" "+returner[2][0]+" "+returner[0][0] );
+		return returner;
+		
+	}
 	public static Cell[][] genArray() {
 		Cell[][] area=new Cell[50][50];
 		double k=1.0/2500.0;
