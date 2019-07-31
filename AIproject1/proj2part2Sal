@@ -1,4 +1,4 @@
-public class partTwo {
+public class proj2part2 {
 	public static void main(String []args) {
 		Cell[][] area=genArray();
 		for(int i=0;i<52;i++) {
