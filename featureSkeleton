@@ -7,7 +7,35 @@
 		}
     
     //change under here
-    
+    count=0;
+    countbot=0;
+    	
+	for( int l = 0;l<28; l++)
+	{
+		for( int n=0; n<limit n++)
+		{
+			if( l<14 && n < (limt/2) && digits[l][n]==1)
+				{
+				countbot++;
+				}
+			else
+			{
+				if(digets[l][n]==1)
+				{
+					count++;
+				}
+			}
+		}
+	}
+	if( (count - countbot )<= 50 && (count - countbot) >=-50)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+    /*
 		for(int i=index;i<index+limit;i++) {
 			for(int j=0;j<28;j++) {
 				if(digit[i][j]==1) {
@@ -15,7 +43,7 @@
 				}
 			}
 		}
-
+	*/
 		if(count<125) {
 			return 1;
 		}
