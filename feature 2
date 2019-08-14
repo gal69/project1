@@ -7,7 +7,8 @@
 			limit=digit.length-index;
 		}
     
-    //change under here
+   
+   // manahatan distance from the center
     count=0;
     double distance =0.0;
     	
