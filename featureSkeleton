@@ -9,6 +9,8 @@
     //change under here
    int countbot=0;
     	
+	// checks for symmetry on the y = -x axis
+	
 	for( int l = 0;l<28; l++)
 	{
 		for( int n=0; n<limit n++)
