@@ -1,50 +1,9 @@
+Naive Bayes: our  algorithm was implement as normal using 1 feature for faces and 5 features for digits smoothing was not used for both Naive Bayes and preceptron. Our preceptron was also implemented as normal but we excluded the bias. As expcected our Naive Bayes  does  not perform as well as our Naive Bayes and Perceptron.
 
-	public static int digitFeature1(int[][] digit, int index) {
-		index*=28;
-		int count=0;
-		int limit=28;
-		if(digit.length-index<28) {
-			limit=digit.length-index;
-		}
-    
-   
-   // manahatan distance from the center
-    count=0;
-    double distance =0.0;
-    	
-	for( int l = 0;l<28; l++)
-	{
-		for( int n=0; n<limit n++)
-		{
-			if( digit[l][n] ==1)
-			{
-				count++;
-				distance+=Math.abs(15 -l)+Math.abs(15-n);
-			}
-		}
-	}
-	double average = distance/count;
-	if( average <= 8 )
-	{
-		return 1;
-	}
-	else
-	{
-		return 0;
-	}
-    /*
-		for(int i=index;i<index+limit;i++) {
-			for(int j=0;j<28;j++) {
-				if(digit[i][j]==1) {
-					count++;
-				}
-			}
-		}
-	*/
-		if(count<125) {
-			return 1;
-		}
-		return 0;
-	}
+for the most part when we increased the total training cases the algorithms improved in accuracy
 
-  
+features : for faces our only feature we implemented was a fuction that counted the total number of blacks pixels in the photo. how we came up with our threshold was we would print out  total count before returning. Then we would  pick a number that would work for most cases. We implemented this thoughout all our features. 
+
+for digits we implemented feature including: the total number of black pixels, the total number of black pixels in the upper left corner, whether the top half of the photo is black pixel heavy or if the photo is bottom heavy.
+
+something that we noticed was even when we thought a feature would help make a digit distinctive did not mean that it would actually improve our accuracy. Also the one feature for our faces was accuracy %70 we didnt need any others.
