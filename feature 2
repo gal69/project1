@@ -9,23 +9,16 @@
     
     //change under here
     count=0;
-    countbot=0;
+    double distance =0.0
     	
 	for( int l = 0;l<28; l++)
 	{
 		for( int n=0; n<limit n++)
 		{
-			if( l<14 && n < (limit/2) && digits[l][n]==1)
-				{
-				countbot++;
-				}
-			else
+			if( digit[l][n] ==1)
 			{
-				if(digets[l][n]==1)
-				{
-					count++;
-				}
-			}
+				count++;
+				distance+=;
 		}
 	}
 	if( (count - countbot )<= 50 && (count - countbot) >=-50)
