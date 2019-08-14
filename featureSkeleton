@@ -14,7 +14,7 @@
 	{
 		for( int n=0; n<limit n++)
 		{
-			if( l<14 && n < (limt/2) && digits[l][n]==1)
+			if( l<14 && n < (limit/2) && digits[l][n]==1)
 				{
 				countbot++;
 				}
