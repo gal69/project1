@@ -7,8 +7,7 @@
 		}
     
     //change under here
-    count=0;
-    countbot=0;
+   int countbot=0;
     	
 	for( int l = 0;l<28; l++)
 	{
