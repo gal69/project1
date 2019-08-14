@@ -9,7 +9,7 @@
     
     //change under here
     count=0;
-    double distance =0.0
+    double distance =0.0;
     	
 	for( int l = 0;l<28; l++)
 	{
@@ -18,10 +18,12 @@
 			if( digit[l][n] ==1)
 			{
 				count++;
-				distance+=;
+				distance+=Math.abs(15 -l)+Math.abs(15-n);
+			}
 		}
 	}
-	if( (count - countbot )<= 50 && (count - countbot) >=-50)
+	double average = distance/count;
+	if( average <= 8 )
 	{
 		return 1;
 	}
